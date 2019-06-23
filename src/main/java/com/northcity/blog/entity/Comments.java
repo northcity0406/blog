@@ -3,11 +3,12 @@ package com.northcity.blog.entity;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
 @Entity
-public class Comments {
+public class Comments implements Serializable {
   private int id;
   private String articleId;
   private int parentId;

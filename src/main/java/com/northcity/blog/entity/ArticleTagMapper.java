@@ -3,12 +3,13 @@ package com.northcity.blog.entity;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
 @Entity
 @Table(name = "article_tag_mapper", schema = "blog", catalog = "")
-public class ArticleTagMapper {
+public class ArticleTagMapper implements Serializable {
   private int id;
   private String articleId;
   private String tagId;

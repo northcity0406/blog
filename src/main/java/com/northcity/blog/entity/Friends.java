@@ -2,12 +2,13 @@ package com.northcity.blog.entity;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
 @Entity
 @IdClass(FriendsPK.class)
-public class Friends {
+public class Friends implements Serializable {
   private int aid;
   private String friendId;
   private String name;

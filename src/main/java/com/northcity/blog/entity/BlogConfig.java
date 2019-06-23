@@ -1,11 +1,12 @@
 package com.northcity.blog.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "blog_config", schema = "blog", catalog = "")
-public class BlogConfig {
+public class BlogConfig implements Serializable {
 	private int id;
 	private String blogName;
 	private String avatar;
@@ -125,5 +126,20 @@ public class BlogConfig {
 	@Override
 	public int hashCode() {
 		return Objects.hash(id, blogName, avatar, sign, wxpayQrcode, alipayQrcode, github, viewPassword, salt);
+	}
+
+	@Override
+	public String toString() {
+		return "BlogConfig{" +
+				"id=" + id +
+				", blogName='" + blogName + '\'' +
+				", avatar='" + avatar + '\'' +
+				", sign='" + sign + '\'' +
+				", wxpayQrcode='" + wxpayQrcode + '\'' +
+				", alipayQrcode='" + alipayQrcode + '\'' +
+				", github='" + github + '\'' +
+				", viewPassword='" + viewPassword + '\'' +
+				", salt='" + salt + '\'' +
+				'}';
 	}
 }

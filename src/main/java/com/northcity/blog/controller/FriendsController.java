@@ -26,9 +26,6 @@ public class FriendsController {
 	private Logger logger = LoggerFactory.getLogger(FriendsController.class);
 
 	@Autowired
-	private HttpServletRequest request;
-
-	@Autowired
 	private FriendsService friendsService;
 
 	@Autowired
@@ -59,7 +56,7 @@ public class FriendsController {
 	public void deleteFriendsByAid(@RequestParam("aid") int aid){
 		Friends friends = friendsService.findFriendsByAid(aid);
 		friendsService.deleteByAid(aid);
-		syslogService.save(SysLogUtil.SaveSyslog("[删除友链 :]" + friends.toString(),request));
+		syslogService.save(SysLogUtil.SaveSyslog("[删除友链 :]" + friends.toString()));
 		logger.info("[删除友链 :]" + friends.toString());
 	}
 
@@ -76,7 +73,7 @@ public class FriendsController {
 		friends.setStatus(true);
 		friends.setTypeId(0);
 		friendsService.saveAndUpdate(friends);
-		syslogService.save(SysLogUtil.SaveSyslog("[添加友链 :]" + friends.toString(),request));
+		syslogService.save(SysLogUtil.SaveSyslog("[添加友链 :]" + friends.toString()));
 		logger.info("[添加友链 :]" + friends.toString());
 	}
 
@@ -88,7 +85,7 @@ public class FriendsController {
 		friends.setName(name);
 		friends.setUrl(url);
 		friendsService.saveAndUpdate(friends);
-		syslogService.save(SysLogUtil.SaveSyslog("[修改友链 :]" + friends.toString(),request));
+		syslogService.save(SysLogUtil.SaveSyslog("[修改友链 :]" + friends.toString()));
 		logger.info("[修改友链 :]" + friends.toString());
 	}
 }

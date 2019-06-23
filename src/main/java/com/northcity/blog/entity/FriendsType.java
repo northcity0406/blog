@@ -1,11 +1,12 @@
 package com.northcity.blog.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "friends_type", schema = "blog", catalog = "")
-public class FriendsType {
+public class FriendsType implements Serializable {
 	private int id;
 	private String name;
 	private Integer count;

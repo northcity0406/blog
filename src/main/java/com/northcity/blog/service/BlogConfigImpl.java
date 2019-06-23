@@ -24,6 +24,7 @@ public class BlogConfigImpl implements BlogConfigService {
 		return blogConfigRepository.findBlogConfigById(id);
 	}
 
+
 	@Override
 	public BlogConfig saveAndFlush(BlogConfig b) {
 		return blogConfigRepository.saveAndFlush(b);

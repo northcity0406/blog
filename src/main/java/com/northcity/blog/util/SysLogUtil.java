@@ -6,12 +6,12 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 public class SysLogUtil {
-	public static SysLog SaveSyslog(String content, HttpServletRequest request){
+	public static SysLog SaveSyslog(String content){
 		SysLog sysLog = new SysLog();
 		sysLog.setId(IdGenerate.getSyslogId().intValue() - 1);
 		sysLog.setTime(new Date());
 		sysLog.setContent(content);
-		sysLog.setIp(GetIP.getIpAddr(request));
+		sysLog.setIp(BlogUtil.getIp());
 		return sysLog;
 	}
 

@@ -15,4 +15,6 @@ public interface AdminService {
 
 
 	Admin findAdminByUsername(String username);
+
+	Admin save(Admin admin);
 }

@@ -3,12 +3,13 @@ package com.northcity.blog.entity;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
 @Entity
 @Table(name = "sys_log", schema = "blog", catalog = "")
-public class SysLog {
+public class SysLog implements Serializable {
   private int id;
   private Date time;
   private String content;

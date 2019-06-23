@@ -3,12 +3,13 @@ package com.northcity.blog.entity;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
 @Entity
 @IdClass(ArticlePK.class)
-public class Article {
+public class Article implements Serializable {
   private int aid;
   private String id;
   private String title;

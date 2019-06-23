@@ -38,4 +38,10 @@ public class AdminImpl implements AdminService {
   public Admin findAdminByUsername(String username) {
     return adminRepository.findAdminByUsername(username);
   }
+
+  @Override
+  public Admin save(Admin admin) {
+    return adminRepository.saveAndFlush(admin);
+  }
+
 }

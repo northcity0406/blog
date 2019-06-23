@@ -1,6 +1,7 @@
 package com.northcity.blog.controller;
 
 import com.northcity.blog.entity.BlogConfig;
+import com.northcity.blog.response.BaseResponse;
 import com.northcity.blog.service.interfaceDecla.BlogConfigService;
 import com.northcity.blog.service.interfaceDecla.SyslogService;
 import com.northcity.blog.util.SysLogUtil;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.*;
 
 @RestController
 public class BlogConfigController {
@@ -20,19 +22,15 @@ public class BlogConfigController {
 	@Autowired
 	private SyslogService syslogService;
 
-	@Autowired
-	private HttpServletRequest request;
-
-	@RequestMapping(value = "/a/webConfig/modify",method= RequestMethod.GET)
-	public BlogConfig modifyWebConfig(@RequestParam(value = "blogName",required = true) String blogName,
+	@RequestMapping(value = "/a/webConfig/modify",method= {RequestMethod.GET,RequestMethod.POST})
+	public BaseResponse<BlogConfig> modifyWebConfig(@RequestParam(value = "blogName",required = true) String blogName,
 	                                  @RequestParam(value = "avatar",required = true) String avatar,
 	                                  @RequestParam(value = "sign",required = false) String sign,
 	                                  @RequestParam(value = "wxpayQrcode",required = false) String wxpayQrcode,
 	                                  @RequestParam(value = "alipayQrcode",required = false) String alipayQrcode,
 	                                  @RequestParam(value = "github",required = false) String github,
-	                                  @RequestParam(value = "oldPassword",required = false) String oldPassword,
 	                                  @RequestParam(value = "viewPassword",required = false) String viewPassword,
-	                                  @RequestParam(value = "salt",required = false) String salt, HttpSession session){
+	                                  @RequestParam(value = "salt",required = false) String salt){
 		BlogConfig b = new BlogConfig();
 		b.setBlogName(blogName);
 		b.setAvatar(avatar);
@@ -42,14 +40,25 @@ public class BlogConfigController {
 		if(github != null) b.setGithub(github);
 		if(viewPassword != null) b.setViewPassword(viewPassword);
 		if(salt != null) b.setSalt(salt);
+		blogConfigService.saveAndFlush(b);
 		logger.info("[修改页面配置:]" + b.toString());
-		syslogService.save(SysLogUtil.SaveSyslog("[修改页面配置:]" + b.toString(),request));
-		return blogConfigService.saveAndFlush(b);
+		syslogService.save(SysLogUtil.SaveSyslog("[修改页面配置:]" + b.toString()));
+		BaseResponse<BlogConfig> result = new BaseResponse<BlogConfig>();
+		result.setSuccess(true);
+		result.setMsg("保存成功!");
+		result.setData(b);
+		return result;
 	}
-
 	@RequestMapping(value = "/a/webConfig",method= RequestMethod.GET)
-	public BlogConfig findWebConfig(){
-		return blogConfigService.findAll().get(0);
+	public BaseResponse<BlogConfig> findWebConfig(){
+		List<BlogConfig> blogConfigList = blogConfigService.findAll();
+		int size = blogConfigList.size();
+		BlogConfig blogConfig = blogConfigList.get(size - 1);
+		BaseResponse<BlogConfig> result = new BaseResponse<BlogConfig>();
+		result.setSuccess(true);
+		result.setMsg("返回成功!");
+		result.setData(blogConfig);
+		return result;
 	}
 
 }

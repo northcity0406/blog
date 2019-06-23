@@ -23,4 +23,7 @@ public interface AdminRepository extends JpaRepository<Admin, AdminPK> {
   Admin findAdminByUsernameAndPassword(String username,String password);
 
   Admin findAdminByUsername(String username);
+
+  @Override
+  <S extends Admin> S saveAndFlush(S s);
 }
