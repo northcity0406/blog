@@ -7,6 +7,37 @@
       </div>
     </div>
     <div class="friends-table-wrap">
+       <el-table :data="catetoryList" border style="width: 100%">
+          <el-table-column prop="name" label="标题" width="400"></el-table-column>
+          <el-table-column prop="articleCount" label="分类" width="250"></el-table-column>
+          <el-table-column prop="createTime" label="创建时间" width="150"></el-table-column>
+          <el-table-column prop="updateTime" label="更新时间" width="150"></el-table-column>
+          <el-table-column prop="status" label="状态" width="90"></el-table-column>
+          <el-table-column label="操作" fixed="right" width="130">
+            <template slot-scope="scope">
+              <el-button type="primary" size="mini" icon="el-icon-edit"
+               @click="editCategory(scope.row)"></el-button>
+              <el-button type="primary" size="mini" icon="el-icon-delete" 
+               @click="underCategory(scope.row)"></el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      <!-- 分页 -->
+      <div
+        class="pagination"
+        v-show="friendsList.length > 0">
+        <el-pagination
+          background
+          layout="prev, pager, next"
+          :page-size="pageSize"
+          @current-change="pageChange"
+          :current-page="currentPage"
+          :total="total">
+        </el-pagination>
+      </div>
+      <!-- 分页 结束 -->
+    </div>
+    <div class="friends-table-wrap">
       <el-table
         :data="friendsList"
         border

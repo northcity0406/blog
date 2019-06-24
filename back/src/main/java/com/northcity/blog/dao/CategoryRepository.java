@@ -9,13 +9,13 @@ import java.util.*;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, CategoryPK> {
-
+	@Override
 	List<Category> findAll();
 
 	@Override
 	<S extends Category> S saveAndFlush(S s);
 
-	Category getCategoryById(String id);
+	Category findCategoryById(String id);
 
 	void deleteById(String id);
 }

@@ -196,6 +196,7 @@ const actions = {
    * 修改标签
    */
   modifyTag (store, params) {
+    console.log('/a/tag/modify', params)
     return api.modifyTag(params)
       .then((data) => {
         return Promise.resolve(data.data)
@@ -208,6 +209,7 @@ const actions = {
    * 删除分类
    */
   deleteCategory (store, categoryId) {
+    console.log('/a/category/delete', categoryId)
     return api.deleteCategory(categoryId)
       .then((data) => {
         return Promise.resolve(data.data)

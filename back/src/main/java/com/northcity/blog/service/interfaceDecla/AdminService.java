@@ -9,9 +9,9 @@ public interface AdminService {
 
 	Admin findAdminByAid(int aid);
 
-	Admin findAdminByAidAndUserId(int aid,String uid);
+	Admin findAdminByAidAndUserId(int aid, String uid);
 
-	Admin login(String username,String password);
+	Admin login(String username, String password);
 
 
 	Admin findAdminByUsername(String username);

@@ -47,11 +47,6 @@ public class FriendsController {
 		return friendsList;
 	}
 
-	@GetMapping("/search")
-	public Friends findFriendsById(@RequestParam("aid") int aid){
-		return friendsService.findFriendsByAid(aid);
-	}
-
 	@RequestMapping("/delete")
 	public void deleteFriendsByAid(@RequestParam("aid") int aid){
 		Friends friends = friendsService.findFriendsByAid(aid);

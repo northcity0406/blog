@@ -8,7 +8,6 @@ public interface CategoryService {
 
 	Category findCategoryById(String id);
 
-
 	Category saveAndFlush(Category category);
 
 	void deleteById(String id);

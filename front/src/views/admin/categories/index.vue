@@ -8,14 +8,16 @@
         </div>
         <el-table :data="catetoryList" border style="width: 100%">
           <el-table-column prop="name" label="标签名称" width="100"></el-table-column>
-          <el-table-column prop="articleCount" label="文章数" width="80"></el-table-column>
+          <el-table-column prop="articleCount" label="文章数" width="70"></el-table-column>
           <el-table-column prop="createTime" label="创建时间" width="112"></el-table-column>
           <el-table-column prop="updateTime" label="更新时间" width="115"></el-table-column>
-          <el-table-column prop="status" label="状态" width="100"></el-table-column>
-          <el-table-column  label="操作" width="120">
+          <el-table-column prop="status" label="状态" width="90"></el-table-column>
+          <el-table-column label="操作" fixed="right" width="130">
             <template slot-scope="scope">
-              <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
-              <el-button type="text" size="small">编辑</el-button>
+              <el-button type="primary" size="mini" icon="el-icon-edit"
+               @click="editCategory(scope.row)"></el-button>
+              <el-button type="primary" size="mini" icon="el-icon-delete" 
+               @click="underCategory(scope.row)"></el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -25,15 +27,17 @@
           <span @click="newTag">新增标签</span>
         </div>
         <el-table :data="tagList" border style="width: 100%">
-          <el-table-column prop="name" label="标签名称" width="100"></el-table-column>
-          <el-table-column prop="articleCount" label="文章数" width="80"></el-table-column>
+          <el-table-column prop="name" label="标签名称" width="80"></el-table-column>
+          <el-table-column prop="articleCount" label="文章数" width="60"></el-table-column>
           <el-table-column prop="createTime" label="创建时间" width="112"></el-table-column>
           <el-table-column prop="updateTime" label="更新时间" width="115"></el-table-column>
-          <el-table-column prop="status" label="状态" width="100"></el-table-column>
-          <el-table-column  label="操作" width="120">
+          <el-table-column prop="status" label="状态" width="60"></el-table-column>
+          <el-table-column label="操作" fixed="right" width="130">
             <template slot-scope="scope">
-              <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
-              <el-button type="text" size="small">编辑</el-button>
+              <el-button type="primary" size="mini" icon="el-icon-edit"
+               @click="editTag(scope.row)"></el-button>
+              <el-button type="primary" size="mini" icon="el-icon-delete" 
+               @click="underTag(scope.row)"></el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -81,18 +85,19 @@ export default {
     },
     editTag(tag) {
       this.showDialogWithInput(
-        tag.tagName,
+        tag.name,
         value => {
           if (!value) {
             this.$toast("标签名不能为空", "error");
             return;
           }
-          if (value === tag.tagName) {
+          if (value === tag.name) {
             this.$toast("标签名重复", "error");
             return;
           }
+          console.log('/a/tag/modify', tag.name + " " + tag.id)
           this.modifyTag({
-            tagId: tag.tagId,
+            tagId: tag.id,
             tagName: value
           })
             .then(data => {
@@ -110,7 +115,7 @@ export default {
       this.showDialog(
         "此操作会将该标签删除，并将所有文章移除该标签, 是否继续?",
         () => {
-          this.deleteTag(tag.tagId)
+          this.deleteTag(tag.id)
             .then(data => {
               this.$toast("已删除");
               this.getTList();
@@ -132,18 +137,18 @@ export default {
     },
     editCategory(category) {
       this.showDialogWithInput(
-        category.categoryName,
+        category.name,
         value => {
           if (!value) {
             this.$toast("分类名不能为空", "error");
             return;
           }
-          if (value === category.categoryName) {
+          if (value === category.name) {
             this.$toast("分类名重复", "error");
             return;
           }
           this.modifyCategory({
-            categoryId: category.categoryId,
+            categoryId: category.id,
             categoryName: value
           })
             .then(data => {
@@ -161,7 +166,7 @@ export default {
       this.showDialog(
         "此操作会删除该分类，并将该分类下的文章移到默认分类, 是否继续?",
         () => {
-          this.deleteCategory(category.categoryId)
+          this.deleteCategory(category.id)
             .then(data => {
               this.$toast("已删除");
               this.getCList();

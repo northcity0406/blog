@@ -140,12 +140,14 @@ export default {
    * 修改分类
    */
   modifyCategory (params) {
+    console.log('a/category/modify', params)
     return axios.post('a/category/modify', Qs.stringify(params))
   },
   /**
    * 修改标签
    */
   modifyTag (params) {
+    console.log('/a/tag/modify', params)
     return axios.post('a/tag/modify', Qs.stringify(params))
   },
   /**

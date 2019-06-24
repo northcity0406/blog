@@ -20,7 +20,7 @@ public interface AdminRepository extends JpaRepository<Admin, AdminPK> {
   Admin findAdminByAidAndUserId(int aid, String userId);
 
 
-  Admin findAdminByUsernameAndPassword(String username,String password);
+  Admin findAdminByUsernameAndPassword(String username, String password);
 
   Admin findAdminByUsername(String username);
 

@@ -12,4 +12,6 @@ public interface TagService {
 	List<Tag> findAllByOrderByCreateTimeDesc();
 
 	void saveAndFlush(Tag tag);
+
+	void deleteById(String id);
 }

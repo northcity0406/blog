@@ -9,7 +9,6 @@ import java.util.*;
 
 @Repository
 public interface TagRepository extends JpaRepository<Tag, TagPK> {
-
 	@Override
 	List<Tag> findAll();
 
@@ -19,4 +18,6 @@ public interface TagRepository extends JpaRepository<Tag, TagPK> {
 
 	@Override
 	<S extends Tag> S saveAndFlush(S s);
+
+	void deleteById(String id);
 }

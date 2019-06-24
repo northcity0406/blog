@@ -11,7 +11,8 @@ import java.util.List;
 @Service("CategoryService")
 public class CategoryImpl implements CategoryService {
 
-	@Autowired private CategoryRepository categoryRepository;
+	@Autowired
+	private CategoryRepository categoryRepository;
 
 	@Override
 	public List<Category> findAll() {
@@ -20,7 +21,7 @@ public class CategoryImpl implements CategoryService {
 
 	@Override
 	public Category findCategoryById(String id) {
-		return categoryRepository.getCategoryById(id);
+		return categoryRepository.findCategoryById(id);
 	}
 
 	@Override

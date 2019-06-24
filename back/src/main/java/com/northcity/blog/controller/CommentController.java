@@ -56,7 +56,5 @@ public class CommentController {
 		syslogService.save(SysLogUtil.SaveSyslog("[Comment删除 :]" + id));
 		return result;
 	}
-
-
 }
 

@@ -23,8 +23,5 @@ public interface FriendsRepository extends JpaRepository<Friends, FriendsPK> {
   @Override
   void delete(Friends friends);
 
-  @Override
-  void deleteById(FriendsPK friendsPK);
-
   void deleteByAid(int aid);
 }

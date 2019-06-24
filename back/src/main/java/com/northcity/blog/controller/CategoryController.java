@@ -3,9 +3,7 @@ package com.northcity.blog.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.northcity.blog.entity.Admin;
 import com.northcity.blog.entity.Category;
-import com.northcity.blog.entity.Tag;
 import com.northcity.blog.response.BaseResponse;
-import com.northcity.blog.service.interfaceDecla.AdminService;
 import com.northcity.blog.service.interfaceDecla.CategoryService;
 import com.northcity.blog.service.interfaceDecla.SyslogService;
 import com.northcity.blog.util.BlogConst;
@@ -14,8 +12,10 @@ import com.northcity.blog.util.SysLogUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -40,11 +40,7 @@ public class CategoryController {
 
 	@RequestMapping(value = "/list",method = {RequestMethod.GET,RequestMethod.POST})
 	public BaseResponse<List<Category>> findAll(@RequestParam("all") Boolean all){
-		BaseResponse<List<Category>> result = new BaseResponse<>();
-		result.setSuccess(true);
-		result.setMsg("全部分类!");
-		result.setData(categoryService.findAll());
-		return result;
+		return getResponse(true,"全部分类!");
 	}
 
 	@RequestMapping(value = "/add",method = {RequestMethod.GET,RequestMethod.POST})
@@ -53,8 +49,7 @@ public class CategoryController {
 			HttpSession session) throws IOException {
 
 		ObjectMapper objectMapper = new ObjectMapper();
-		Admin admin = (Admin)objectMapper.readValue(stringRedisTemplate.opsForValue().get(BlogConst.USER_SESSION_KEY),Admin.class);
-		BaseResponse<List<Category>> result = new BaseResponse<>();
+		Admin admin = objectMapper.readValue(stringRedisTemplate.opsForValue().get(BlogConst.USER_SESSION_KEY),Admin.class);
 		try{
 			Category category = new Category();
 			category.setAid(admin.getAid());
@@ -67,42 +62,63 @@ public class CategoryController {
 			categoryService.saveAndFlush(category);
 			logger.info("[Category添加 :]" + category.toString());
 			syslogService.save(SysLogUtil.SaveSyslog("[Category添加 :]" + category.toString()));
-
-			result.setSuccess(true);
-			result.setMsg("添加成功!");
-			result.setData(categoryService.findAll());
-			return result;
-		}catch (Exception e){
+			return getResponse(true,"添加成功!");
+		}catch (NullPointerException e){
 			logger.info(e.getMessage());
 		}
-		result.setSuccess(true);
-		result.setMsg("添加失败!");
-		result.setData(categoryService.findAll());
-		return result;
+		return getResponse(false,"添加失败!");
 	}
 
-	@GetMapping("/modify")
-	public Category modifyCategory(
-			@RequestParam("id") String id,
-			@RequestParam("name") String name){
+	@RequestMapping(value = "/modify",method = {RequestMethod.GET,RequestMethod.POST})
+	public BaseResponse<List<Category>> modifyCategory(
+			@RequestParam("categoryId") String id,
+			@RequestParam("categoryName") String name){
 		Category category = categoryService.findCategoryById(id);
-		category.setName(name);
-		category.setUpdateTime(new Date());
-		categoryService.saveAndFlush(category);
-		logger.info("[Category修改 :]" + category.toString());
-		syslogService.save(SysLogUtil.SaveSyslog("[Category修改 :]" + category.toString()));
-		return category;
+		if(category == null){
+			return getResponse(false,"修改失败!");
+		}
+		try{
+			category.setName(name);
+			category.setUpdateTime(new Date());
+			categoryService.saveAndFlush(category);
+			logger.info("[Category修改 :]" + category.toString());
+			syslogService.save(SysLogUtil.SaveSyslog("[Category修改 :]" + category.toString()));
+			return getResponse(true,"修改成功!");
+		}catch (NullPointerException e){
+			logger.info(e.getMessage());
+		}
+		return getResponse(false,"修改失败!");
 	}
 
+	@Modifying
+	@Transactional
+	@RequestMapping(value = "/delete",method = {RequestMethod.GET,RequestMethod.POST})
+	public BaseResponse<List<Category>> deleteCategory(
+			@RequestParam("categoryId") String id){
 
-	@GetMapping("/delete")
-	public Category deleteCategory(
-			@RequestParam("id") String id){
-		categoryService.deleteById(id);
-		Category category = categoryService.findCategoryById(id);
-		logger.info("[Category删除 :]" + category.toString());
-		syslogService.save(SysLogUtil.SaveSyslog("[Category删除 :]" + category.toString()));
-		return category;
+		logger.info(id);
+		try{
+			Category category = categoryService.findCategoryById(id);
+			categoryService.deleteById(id);
+			logger.info("[Category删除 :]" + category.toString());
+			syslogService.save(SysLogUtil.SaveSyslog("[Category删除 :]" + category.toString()));
+			return getResponse(true,"删除成功!");
+		}catch (NullPointerException e){
+			logger.info(e.getMessage());
+		}
+		return getResponse(false,"删除失败!");
+	}
+
+	private BaseResponse<List<Category>> getResponse(boolean success,String msg){
+		BaseResponse<List<Category>> response = new BaseResponse<>();
+		response.setSuccess(success);
+		response.setMsg(msg);
+		if(success){
+			response.setData(categoryService.findAll());
+			return response;
+		}
+		response.setData(null);
+		return response;
 	}
 
 }

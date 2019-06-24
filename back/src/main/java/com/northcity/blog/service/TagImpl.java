@@ -34,4 +34,11 @@ public class TagImpl implements TagService {
 	public void saveAndFlush(Tag tag) {
 		tagRepository.saveAndFlush(tag);
 	}
+
+	@Override
+	public void deleteById(String id) {
+		tagRepository.deleteById(id);
+	}
+
+
 }

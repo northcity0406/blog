@@ -16,6 +16,7 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import redis.clients.jedis.JedisPoolConfig;
 
+
 @Configuration
 public class RedisConfig {
   private static Logger logger = LoggerFactory.getLogger(RedisConfig.class);
@@ -66,20 +67,19 @@ public class RedisConfig {
     template.afterPropertiesSet();
     return template;
   }
-  // 使用jedis连接池建立jedis连接工厂
-  @Bean
-  public JedisConnectionFactory jedisConnectionFactory() {
-
-    logger.info("jedisConnectionFactory:初始化了");
-    JedisPoolConfig config = new JedisPoolConfig();
-    config.setMaxIdle(maxIdle);
-    config.setMinIdle(minIdle);
-    config.setMaxWaitMillis(maxWaitMillis);
-    config.setMaxTotal(maxActive);
-    // 链接耗尽时是否阻塞，默认true
-    config.setBlockWhenExhausted(true);
-    // 是否启用pool的jmx管理功能，默认true
-    config.setJmxEnabled(true);
-    return new JedisConnectionFactory();
-  }
+//  // 使用jedis连接池建立jedis连接工厂
+//  @Bean
+//  public JedisConnectionFactory jedisConnectionFactory() {
+//    logger.info("jedisConnectionFactory:初始化了");
+//    JedisPoolConfig config = new JedisPoolConfig();
+//    config.setMaxIdle(maxIdle);
+//    config.setMinIdle(minIdle);
+//    config.setMaxWaitMillis(maxWaitMillis);
+//    config.setMaxTotal(maxActive);
+//    // 链接耗尽时是否阻塞，默认true
+//    config.setBlockWhenExhausted(true);
+//    // 是否启用pool的jmx管理功能，默认true
+//    config.setJmxEnabled(true);
+//    return new JedisConnectionFactory();
+//  }
 }

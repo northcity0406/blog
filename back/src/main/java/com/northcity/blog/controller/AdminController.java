@@ -29,8 +29,6 @@ public class AdminController {
 
   @Autowired
   private StringRedisTemplate stringRedisTemplate;
-  @Autowired
-  private RedisTemplate redisTemplate;
 
   @Autowired
   private SyslogService syslogService;
@@ -41,9 +39,11 @@ public class AdminController {
       @RequestParam(value = "password", required = true) String password,
       HttpSession session) throws JsonProcessingException{
     Admin admin = adminService.findAdminByUsername(username);
-    BaseResponse<Admin> result = new BaseResponse<Admin>();
+
+    BaseResponse<Admin> result= new BaseResponse<>();
+
     if (admin != null && admin.getPassword().equals(password)) {
-      stringRedisTemplate.opsForValue().set(BlogConst.USER_SESSION_KEY.toString(),
+      stringRedisTemplate.opsForValue().set(BlogConst.USER_SESSION_KEY,
               new ObjectMapper().writeValueAsString(admin));
       logger.info("high :" + new ObjectMapper().writeValueAsString(admin));
       String token = TokenUtil.sign(admin);
