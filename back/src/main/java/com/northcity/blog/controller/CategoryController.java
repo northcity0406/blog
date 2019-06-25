@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @RestController
-@RequestMapping("/a/category")
+//@RequestMapping(value={"/a/category","/w/category"})
 public class CategoryController {
 	private static Logger logger = LoggerFactory.getLogger(AdminController.class);
 	@Autowired
@@ -38,12 +38,17 @@ public class CategoryController {
 	@Autowired
 	private RedisTemplate redisTemplate;
 
-	@RequestMapping(value = "/list",method = {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value = "/a/category/list",method = {RequestMethod.GET,RequestMethod.POST})
 	public BaseResponse<List<Category>> findAll(@RequestParam("all") Boolean all){
 		return getResponse(true,"全部分类!");
 	}
 
-	@RequestMapping(value = "/add",method = {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value = "/w/category/list",method = {RequestMethod.GET,RequestMethod.POST})
+	public BaseResponse<List<Category>> findAllList(){
+		return getResponse(true,"全部分类!");
+	}
+
+	@RequestMapping(value = "/a/category/add",method = {RequestMethod.GET,RequestMethod.POST})
 	public BaseResponse<List<Category>> addCategory(
 			@RequestParam("categoryName") String name,
 			HttpSession session) throws IOException {
@@ -69,7 +74,7 @@ public class CategoryController {
 		return getResponse(false,"添加失败!");
 	}
 
-	@RequestMapping(value = "/modify",method = {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value = "/a/category/modify",method = {RequestMethod.GET,RequestMethod.POST})
 	public BaseResponse<List<Category>> modifyCategory(
 			@RequestParam("categoryId") String id,
 			@RequestParam("categoryName") String name){
@@ -92,7 +97,7 @@ public class CategoryController {
 
 	@Modifying
 	@Transactional
-	@RequestMapping(value = "/delete",method = {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value = "/a/category/delete",method = {RequestMethod.GET,RequestMethod.POST})
 	public BaseResponse<List<Category>> deleteCategory(
 			@RequestParam("categoryId") String id){
 

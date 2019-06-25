@@ -4,7 +4,7 @@
       <article-card2
         v-for="(article, index) in articleList"
         :key="index"
-        :article="article" />
+        :article="article.htmlContent" />
     </div>
     <!-- 分页 -->
     <div

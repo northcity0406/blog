@@ -7,37 +7,48 @@
           <span @click="newCategory">新增分类</span>
         </div>
         <el-table :data="catetoryList" border style="width: 100%">
-          <el-table-column prop="name" label="标签名称" width="100"></el-table-column>
-          <el-table-column prop="articleCount" label="文章数" width="70"></el-table-column>
-          <el-table-column prop="createTime" label="创建时间" width="112"></el-table-column>
-          <el-table-column prop="updateTime" label="更新时间" width="115"></el-table-column>
-          <el-table-column prop="status" label="状态" width="90"></el-table-column>
-          <el-table-column label="操作" fixed="right" width="130">
+          <el-table-column prop="name" label="标签名称" width="280"></el-table-column>
+          <el-table-column prop="articleCount" label="文章数" width="160"></el-table-column>
+          <el-table-column prop="createTime" label="创建时间" width="160" :formatter="formatTime"></el-table-column>
+          <el-table-column prop="updateTime" label="更新时间" width="160" :formatter="formatTime"></el-table-column>
+          <el-table-column prop="canDel" label="状态" width="160">
+                <template slot-scope="scope">
+                    <el-tag type="scope.row.canDel == false ? 'success' : 'danger'" size="mini">{{ formatStatus(scope.row.canDel) }}</el-tag>
+                </template>
+          </el-table-column>
+          <el-table-column label="操作" fixed="right" width="160">
             <template slot-scope="scope">
               <el-button type="primary" size="mini" icon="el-icon-edit"
-               @click="editCategory(scope.row)"></el-button>
+               @click="editCategory(scope.row)" v-if="scope.row.canDel"></el-button>
               <el-button type="primary" size="mini" icon="el-icon-delete" 
-               @click="underCategory(scope.row)"></el-button>
+               @click="underCategory(scope.row)" v-if="scope.row.canDel"></el-button>
             </template>
           </el-table-column>
         </el-table>
       </div>
+    </div>
+    <div class="category-tag-wrap">
+
       <div class="table-wrap">
         <div class="action-btn-wrap">
           <span @click="newTag">新增标签</span>
         </div>
         <el-table :data="tagList" border style="width: 100%">
-          <el-table-column prop="name" label="标签名称" width="80"></el-table-column>
-          <el-table-column prop="articleCount" label="文章数" width="60"></el-table-column>
-          <el-table-column prop="createTime" label="创建时间" width="112"></el-table-column>
-          <el-table-column prop="updateTime" label="更新时间" width="115"></el-table-column>
-          <el-table-column prop="status" label="状态" width="60"></el-table-column>
-          <el-table-column label="操作" fixed="right" width="130">
+          <el-table-column prop="name" label="标签名称" width="280"></el-table-column>
+          <el-table-column prop="articleCount" label="文章数" width="160"></el-table-column>
+          <el-table-column prop="createTime" label="创建时间" width="160" :formatter="formatTime"></el-table-column>
+          <el-table-column prop="updateTime" label="更新时间" width="160" :formatter="formatTime"></el-table-column>
+          <el-table-column prop="status" label="状态" width="160">
+                <template slot-scope="scope">
+                    <el-tag type="scope.row.status == false ? 'success' : 'danger'" size="mini">{{ formatStatus(scope.row.status) }}</el-tag>
+                </template>
+          </el-table-column>
+          <el-table-column label="操作" fixed="right" width="160">
             <template slot-scope="scope">
-              <el-button type="primary" size="mini" icon="el-icon-edit"
-               @click="editTag(scope.row)"></el-button>
+              <el-button type="primary" size="mini" icon="el-icon-edit" @click="editTag(scope.row)"
+               v-if="scope.row.status"></el-button>
               <el-button type="primary" size="mini" icon="el-icon-delete" 
-               @click="underTag(scope.row)"></el-button>
+               @click="underTag(scope.row)" v-if="scope.row.status"></el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -81,7 +92,7 @@ export default {
         : "-";
     },
     formatStatus(value) {
-      return value == "0" ? "使用中" : "已删除";
+      return value == true ? "可删改" : "不可删改";
     },
     editTag(tag) {
       this.showDialogWithInput(
@@ -134,6 +145,19 @@ export default {
           id: id
         }
       });
+    },
+    formatTime(row, column, cellValue, index) {
+        if (cellValue == null) {
+            return "";
+        }
+        var d = new Date(cellValue);
+        var date = (d.getFullYear()) + "-" +
+            (d.getMonth() + 1) + "-" +
+            (d.getDate()) + " " +
+            (d.getHours()) + ":" +
+            (d.getMinutes()) + ":" +
+            (d.getSeconds());
+        return date;
     },
     editCategory(category) {
       this.showDialogWithInput(
@@ -294,8 +318,8 @@ export default {
 
     .table-wrap {
       position: relative;
-      width: calc(50% - 10px);
-      margin: 5px;
+      width: calc(90% - 10px);
+      margin: 25px,10px,10px,10px;
       transition: all 0.3s;
 
       @media (max-width: 1009px) {

@@ -7,7 +7,7 @@
         :key="index"
         class="category-item"
         @click="toList('category', category.categoryId)">
-        {{ category.categoryName }}
+        {{ category.name }}
         <span>{{ category.articleCount }}篇</span>
       </div>
     </div>
@@ -21,8 +21,8 @@
           fontSize: getFontSize(tag.articleCount),
           color: getColor(tag.articleCount)
         }"
-        @click="toList('tag', tag.tagId)">
-        {{ tag.tagName }}
+        @click="toList('tag', tag.id)">
+        {{ tag.name }}
       </div>
     </div>
   </div>
@@ -48,14 +48,14 @@ export default {
   created() {
     this.getBlogCategoryList()
       .then((data) => {
-        this.categories = data.list
+        this.categories = data
       })
       .catch(()=> {
         this.categories = []
       })
     this.getBlogTagList()
       .then((data) => {
-        this.tags = data.list
+        this.tags = data
       })
       .catch(()=> {
         this.tags = []

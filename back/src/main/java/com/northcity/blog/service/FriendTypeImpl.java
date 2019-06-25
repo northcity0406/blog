@@ -6,6 +6,8 @@ import com.northcity.blog.service.interfaceDecla.FriendTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service("FriendTypeService")
 public class FriendTypeImpl implements FriendTypeService {
 
@@ -15,5 +17,10 @@ public class FriendTypeImpl implements FriendTypeService {
 	@Override
 	public FriendsType getFriendsTypeById(int id) {
 		return friendTypeRepository.getFriendsTypeById(id);
+	}
+
+	@Override
+	public List<FriendsType> findAll() {
+		return friendTypeRepository.findAll();
 	}
 }

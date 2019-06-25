@@ -122,7 +122,12 @@ export default {
    * 获取系统日志
    */
   getSysLog (params) {
-    return axios.get('a/sys/log', {params: params})
+    return axios.get('a/sys/log', {
+      params: {
+        page: params.page,
+        pageSize: params.pageSize
+      }
+    })
   },
   /**
    * 添加分类
@@ -202,6 +207,7 @@ export default {
    * 保存文章
    */
   saveArticle (params) {
+    console.log('/a/article/save', params)
     return axios.post('a/article/save', Qs.stringify(params))
   },
   /**
@@ -214,6 +220,7 @@ export default {
    * 编辑文章
    */
   modifyArticle (params) {
+    console.log('/a/article/edit', params)
     return axios.post('a/article/modify', Qs.stringify(params))
   },
   /**
@@ -236,6 +243,7 @@ export default {
    * 获取文章列表
    */
   getArticleList (params) {
+    console.log('/a/article/list', params)
     return axios.get('a/article/list', {
       params: params
     })
@@ -331,6 +339,7 @@ export default {
    * 获取文章列表
    */
   getBlogArticleList (params) {
+    console.log('/w/article/list', params)
     return axios.get('w/article/list', {
       params: params
     })

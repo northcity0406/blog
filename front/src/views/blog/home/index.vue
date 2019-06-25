@@ -73,8 +73,9 @@ export default {
           pageSize: this.pageSize
         })
         .then((data) => {
-          this.total = data.count
-          this.articleList = data.list
+          console.log('/w/article/list', data)
+          this.total = data.numberOfElements
+          this.articleList = data.content
           this.loading = false
         })
         .catch(()=> {

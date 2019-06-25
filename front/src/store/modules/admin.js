@@ -366,6 +366,7 @@ const actions = {
    * 添加友链
    */
   addFriend (store, params) {
+    console.log('/a/friends/add', params)
     return api.addFriend(params)
       .then((data) => {
         return Promise.resolve(data.data)

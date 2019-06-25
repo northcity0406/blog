@@ -9,6 +9,17 @@ public class IdGenerate {
 
 	private static AtomicInteger categoryId = new AtomicInteger(0);
 
+	private static AtomicInteger friendId = new AtomicInteger(0);
+
+
+	private static AtomicInteger articleTagMapperId = new AtomicInteger(0);
+
+	public static AtomicInteger getArticleTagMapperId() {
+		articleTagMapperId = new AtomicInteger(articleTagMapperId.incrementAndGet());
+		return articleTagMapperId;
+	}
+
+
 	public static AtomicInteger getSyslogId() {
 		syslogId = new AtomicInteger(syslogId.incrementAndGet());
 		return syslogId;
@@ -22,5 +33,10 @@ public class IdGenerate {
 	public static AtomicInteger getCategoryId() {
 		categoryId = new AtomicInteger(categoryId.incrementAndGet());
 		return categoryId;
+	}
+
+	public static AtomicInteger getFriendId() {
+		friendId = new AtomicInteger(friendId.incrementAndGet());
+		return friendId;
 	}
 }

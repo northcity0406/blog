@@ -25,8 +25,7 @@
       <message-card title="系统日志">
         <div slot="content">
           <div class="log-content" v-for="(log, index) in sysLogList" :key="index">
-            <p>ip地址: {{ log.ip }}</p>
-            {{ log.time | time }} => {{ log.content }}
+            <p>IP地址: {{ log.ip }}&nbsp;&nbsp; {{ formatTime(log.time) }} => {{ log.content }}</p>
           </div>
           <p class="more-log">
             <span v-if="logParams.page > 0 && !loadLogMore" @click="getLog(logParams.page - 1)">上一页</span>
@@ -137,14 +136,32 @@ export default {
       'getSysLog',
       'getArticleList'
     ]),
+    formatTime(cellValue) {
+        if (cellValue == null) {
+            return "";
+        }
+        var d = new Date(cellValue);
+        var date = (d.getFullYear()) + "-" +
+            (d.getMonth() + 1) + "-" +
+            (d.getDate()) + " " +
+            (d.getHours()) + ":" +
+            (d.getMinutes()) + ":" +
+            (d.getSeconds());
+        return date;
+    },
     getLog(page) {
       this.logParams.page = page
       this.loadLogMore = true
       this.getSysLog(this.logParams)
         .then((data) => {
+          console.log('/a/sys/log', data)
           this.loadLogMore = false
-          this.hadMoreLog = (parseInt(data.page) + 1) * parseInt(data.pageSize) < data.count
-          this.sysLogList = data.list
+          this.hadMoreLog = (parseInt(this.logParams.page)) < parseInt(data.totalPages)
+          this.sysLogList = data.content
+          console.log('hadMoreLog', this.hadMoreLog)
+          console.log('data.page', this.logParams.page)
+          console.log('data.totalPages', data.totalPages)
+
         })
         .catch(()=> {
           this.loadLogMore = false

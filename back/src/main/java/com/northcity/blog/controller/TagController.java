@@ -25,7 +25,6 @@ import java.sql.Timestamp;
 import java.util.*;
 
 @RestController
-@RequestMapping("/a/tag")
 @EnableAutoConfiguration
 public class TagController{
 
@@ -42,23 +41,28 @@ public class TagController{
 	@Autowired
 	private RedisTemplate redisTemplate;
 
-	@RequestMapping(value = "/list",method = {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value = "/a/tag/list",method = {RequestMethod.GET,RequestMethod.POST})
 	public BaseResponse<List<Tag>> findAll(@RequestParam("all") Boolean all){
 		return getResponse(true,"所有标签!");
 	}
 
-	@GetMapping("/list/orderByDate")
+	@RequestMapping(value = "/w/tag/list",method = {RequestMethod.GET,RequestMethod.POST})
+	public BaseResponse<List<Tag>> findAllList(){
+		return getResponse(true,"所有标签!");
+	}
+
+	@GetMapping("/a/tag/list/orderByDate")
 	public List<Tag> findAllOrderByCreateDate(){
 		return tagService.findAllByOrderByCreateTimeDesc();
 	}
 
-	@GetMapping("/search")
+	@GetMapping("/a/tag/search")
 	public Tag findTagById(@RequestParam(value = "id",required = true) String id){
 		return tagService.findTagById(id);
 	}
 
 
-	@RequestMapping(value = "/add",method = {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value = "/a/tag/add",method = {RequestMethod.GET,RequestMethod.POST})
 	public BaseResponse<List<Tag>> addTag(@RequestParam("tagName") String name, HttpSession session) throws IOException {
 		ObjectMapper objectMapper = new ObjectMapper();
 		Admin admin = objectMapper.readValue(stringRedisTemplate.opsForValue().get(BlogConst.USER_SESSION_KEY),Admin.class);
@@ -81,7 +85,7 @@ public class TagController{
 		return getResponse(false,"添加失败!");
 	}
 
-	@RequestMapping(value = "/modify",method = {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value = "/a/tag/modify",method = {RequestMethod.GET,RequestMethod.POST})
 	public BaseResponse<List<Tag>> modifyTag(@RequestParam("tagId") String id,
 			@RequestParam("tagName") String name){
 		Tag tag = tagService.findTagById(id);
@@ -103,9 +107,9 @@ public class TagController{
 
 	@Modifying
 	@Transactional
-	@RequestMapping(value = "/delete",method = {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value = "/a/tag/delete",method = {RequestMethod.GET,RequestMethod.POST})
 	public BaseResponse<List<Tag>> deleteTag(
-			@RequestParam("id") String id){
+			@RequestParam("tagId") String id){
 		try{
 			Tag tag = tagService.findTagById(id);
 			tagService.deleteById(id);
