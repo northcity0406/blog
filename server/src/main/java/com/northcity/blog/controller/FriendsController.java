@@ -27,7 +27,6 @@ import java.util.*;
 
 
 @RestController
-@RequestMapping("/a/friends")
 public class FriendsController {
 	private Logger logger = LoggerFactory.getLogger(FriendsController.class);
 
@@ -40,7 +39,16 @@ public class FriendsController {
 	@Autowired
 	private SyslogService syslogService;
 
-	@RequestMapping(value = "/list",method = {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value = "/w/friends/list",method = {RequestMethod.GET,RequestMethod.POST})
+	public BaseResponse<List<Friends>> getAllFriendsBlog(){
+		BaseResponse<List<Friends>> response = new BaseResponse<>();
+		response.setSuccess(true);
+		response.setMsg("全部友链!");
+		response.setData(friendsService.findAll());
+		return response;
+	}
+
+	@RequestMapping(value = "/a/friends/list",method = {RequestMethod.GET,RequestMethod.POST})
 	public BaseResponse<Page<Friends>> getAllFriends(
 			@RequestParam("page") int page,
 			@RequestParam("pageSize") int pageSize){
@@ -51,7 +59,7 @@ public class FriendsController {
 
 	@Modifying
 	@Transactional
-	@RequestMapping(value = "/delete",method = {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value = "/a/friends/delete",method = {RequestMethod.GET,RequestMethod.POST})
 	public BaseResponse<Page<Friends>> deleteFriendsByAid(@RequestParam("friendId") String friendId){
 		Friends friends = friendsService.findFriendsByFriendId(friendId);
 		try{
@@ -69,7 +77,7 @@ public class FriendsController {
 
 	@Modifying
 	@Transactional
-	@RequestMapping(value = "/add",method = {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value = "/a/friends/add",method = {RequestMethod.GET,RequestMethod.POST})
 	public BaseResponse<Page<Friends>> addFriends(
 			@RequestParam(value = "name",required = true) String name,
 			@RequestParam(value = "url",required = true) String url,
@@ -102,7 +110,7 @@ public class FriendsController {
 
 	@Modifying
 	@Transactional
-	@RequestMapping(value = "/modify",method = {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value = "/a/friends/modify",method = {RequestMethod.GET,RequestMethod.POST})
 	public BaseResponse<Page<Friends>> modifyFriends(
 			@RequestParam(value = "friendId",required = true) String friendid,
 			@RequestParam(value = "typeId",required = true) int typeId,

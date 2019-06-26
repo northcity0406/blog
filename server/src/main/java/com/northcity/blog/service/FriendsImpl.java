@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-
 @Service("FriendsService")
 public class FriendsImpl implements FriendsService {
 	Logger logger = LoggerFactory.getLogger(FriendsImpl.class);
@@ -34,14 +33,12 @@ public class FriendsImpl implements FriendsService {
 
 	@Override
 	public List<Friends> findAll() {
-		logger.info("hello world");
 		return friendsRepository.findAll();
 	}
 
 	@Transactional
 	@Override
 	public void deleteByAid(int aid) {
-		logger.info("[deleteByAid]" + "aid = " + aid );
 		friendsRepository.deleteByAid(aid);
 	}
 

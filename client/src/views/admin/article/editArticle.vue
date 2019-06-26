@@ -184,6 +184,7 @@ export default {
             });
         },
         $imgAdd(pos, $file) {
+            console.log('pos', pos)
             this.getQiniuToken(true)
                 .then(data => {
                     let formParams = new FormData();

@@ -344,6 +344,16 @@ export default {
       params: params
     })
   },
+
+  /**
+   * 获取文章标签列表
+   */
+  getBlogArticleTagList (params) {
+    return axios.get('w/article/tagList', {
+      params: params
+    })
+  },
+
   /**
    * 获取文章归档列表
    */

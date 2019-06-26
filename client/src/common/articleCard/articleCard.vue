@@ -1,24 +1,22 @@
 <template>
   <div id="article-card">
     <div class="article-card-wrap">
-      <div class="article-cover"
-        :style="{
-          backgroundImage: 'url(' + getCover + ')'
-        }">
+      <div class="article-cover" :style="{ backgroundImage: 'url(' + getCover + ')'}">
         <div class="article-title">
-          <span @click="showArticle">{{ article.article.title }}</span>
+          <span @click="showArticle">{{ article.title }}</span>
         </div>
       </div>
       <div class="article-info">
         <i class="iconfont icon-calendar"></i>
-        发表于 {{ article.article.publishTime | time('YYYY年MM月DD日') }} •
+        发表于 {{ formatTime(article.publishTime) }} •
         <i class="iconfont icon-folder"></i>
-        <span class="classify" @click="toList('category', article.category.id)">{{ article.category.name }}</span> •
+        <span class="classify" @click="toList('category', article.categoryId)">{{ categoryNameFormat(article.categoryId) }}</span> 
+        •
         <i class="iconfont icon-eye"></i>
-        {{ article.article.pageview }}次围观
+        {{ article.pageview }}次围观
       </div>
-      <div class="article-sub-message">{{ article.article.subMessage }}</div>
-      <div class="tags" v-if="article.tags.length > 0">
+      <div class="article-sub-message">{{ article.subMessage }}</div>
+      <!-- <div class="tags" v-if="article.tags.length > 0">
         <div
           v-for="(tag, index) in article.tags"
           :key="index"
@@ -27,36 +25,99 @@
           <i class="iconfont icon-tag"></i>
           {{ tag.name }}
         </div>
-      </div>
+      </div> -->
       <div class="read-more" @click="showArticle">阅读全文 >></div>
     </div>
   </div>
 </template>
 
 <script>
-
+import { scroll } from 'MIXINS/scroll'
+import {
+  mapActions
+} from 'vuex'
 export default {
   name: 'article-card',
   props: ['article'],
+  mixins: [scroll],
   data () {
     return {
-      defaultCover: 'http://blogimg.codebear.cn/FrTy2sZVtGZGYMFj6PAuNe7T6g3__water'
+      defaultCover: 'http://blogimg.codebear.cn/FrTy2sZVtGZGYMFj6PAuNe7T6g3__water',
+      categoryList:[],
+      tagList:[],
+      articleTagList:[]
     }
+  },
+  created(){
+    this.getBlogTag(),
+    this.getBlogCategory()
   },
   computed: {
     getCover () {
-      if (this.article && this.article.article && this.article.article.cover) {
-        return this.article.article.cover
+      if (this.article && this.article.cover) {
+        return this.article.cover
       }
       return this.defaultCover
     }
   },
   methods: {
+    formatTime(cellValue) {
+        if (cellValue == null) {
+            return "";
+        }
+        var d = new Date(cellValue);
+        var date = (d.getFullYear()) + "-" +
+            (d.getMonth() + 1) + "-" +
+            (d.getDate()) + " " +
+            (d.getHours()) + ":" +
+            (d.getMinutes()) + ":" +
+            (d.getSeconds());
+        return date;
+    },
+    getBlogCategory() {
+      this.getBlogCategoryList()
+        .then((data) => {
+          console.log('/w/article/list/category', data)
+          this.categoryList = data
+        })
+        .catch(()=> {
+        })
+    },
+
+    getBlogTag() {
+      this.getBlogTagList()
+        .then((data) => {
+          console.log('/w/article/list/tag', data)
+          this.tagList = data
+        })
+        .catch(()=> {
+        })
+    },
+    getArticleTagById(articleId) {
+      this.getBlogArticleTagList({
+          articleId:articleId
+          })
+        .then((data) => {
+          console.log('/w/article/list/tag', data)
+          this.tagList = data
+        })
+        .catch(()=> {
+        })
+    },
+
+    categoryNameFormat(value){
+        let category = this.categoryList.find(item => item.id === value)
+        return category.name
+    },
+    tagNameFormat(tagId){
+        let tag = this.tagList.find(item => item.id === tagId)
+        return tag.name
+    },
     showArticle () {
       this.$router.push({
         name: 'article',
         query: {
-          id: this.article.article.id
+          id: this.article.id
         }
       })
     },
@@ -68,7 +129,12 @@ export default {
           id: id
         }
       })
-    }
+    },
+    ...mapActions([
+      'getBlogCategoryList',
+      'getBlogTagList',
+      'getBlogArticleTagList'
+    ])
   }
 }
 </script>

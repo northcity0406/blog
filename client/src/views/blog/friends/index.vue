@@ -3,9 +3,12 @@
     <div class="type-wrap" v-for="(item, index) in friends" :key="index">
       <p>{{ item.name }}</p>
       <div class="friends-wrap">
-        <a v-for="(friend, index) in item.list" :key="index" :href="friend.url" target="_blank">
-          {{ friend.name }}
+        <a :key="index" :href="item.url" target="_blank">
+          {{ item.name }}
         </a>
+        <!-- <a v-for="(friend, index) in item.list" :key="index" :href="friend.url" target="_blank">
+          {{ friend.name }}
+        </a> -->
       </div>
     </div>
   </div>
@@ -30,6 +33,7 @@ export default {
     this.loading = true
     this.getBlogFriendsList()
       .then((data) => {
+        console.log('/w/friend/list', data)
         this.friends = data
         this.loading = false
       })

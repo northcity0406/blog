@@ -10,7 +10,6 @@ public interface ArticleTagMapperRepository extends JpaRepository<ArticleTagMapp
 
     List<ArticleTagMapper> findAllByArticleId(String articleId);
 
-
     @Override
     <S extends ArticleTagMapper> S saveAndFlush(S s);
 }

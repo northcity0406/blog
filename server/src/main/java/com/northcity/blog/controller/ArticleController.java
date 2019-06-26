@@ -1,10 +1,7 @@
 package com.northcity.blog.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.northcity.blog.entity.Admin;
-import com.northcity.blog.entity.Article;
-import com.northcity.blog.entity.Friends;
-import com.northcity.blog.entity.Tag;
+import com.northcity.blog.entity.*;
 import com.northcity.blog.response.BaseResponse;
 import com.northcity.blog.service.interfaceDecla.AdminService;
 import com.northcity.blog.service.interfaceDecla.ArticleService;
