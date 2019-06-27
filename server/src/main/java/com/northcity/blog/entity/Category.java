@@ -1,138 +1,108 @@
 package com.northcity.blog.entity;
 
-import org.springframework.format.annotation.DateTimeFormat;
-import javax.persistence.*;
-import java.io.Serializable;
-import java.util.Date;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
-@IdClass(CategoryPK.class)
-public class Category implements Serializable {
-  private int aid;
-  private String id;
-  private String name;
-  private Date createTime;
-  private Date updateTime;
-  private Boolean status;
-  private Integer articleCount;
-  private boolean canDel;
+public class Category {
+    private int id;
+    private String name;
+    private Timestamp createTime;
+    private Timestamp updateTime;
+    private Integer status;
+    private Integer articleCount;
+    private Integer canDel;
 
-  @Id
-  @Column(name = "aid", nullable = false)
-  public int getAid() {
-    return aid;
-  }
+    @Id
+    @Column(name = "id")
+    public int getId() {
+        return id;
+    }
 
-  public void setAid(int aid) {
-    this.aid = aid;
-  }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-  @Id
-  @Column(name = "id", nullable = false, length = 128)
-  public String getId() {
-    return id;
-  }
+    @Basic
+    @Column(name = "name")
+    public String getName() {
+        return name;
+    }
 
-  public void setId(String id) {
-    this.id = id;
-  }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-  @Basic
-  @Column(name = "name", nullable = true, length = 255)
-  public String getName() {
-    return name;
-  }
+    @Basic
+    @Column(name = "createTime")
+    public Timestamp getCreateTime() {
+        return createTime;
+    }
 
-  public void setName(String name) {
-    this.name = name;
-  }
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
+    }
 
-  @Basic
-  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-  @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "create_time", nullable = false)
-  public Date getCreateTime() {
-    return createTime;
-  }
+    @Basic
+    @Column(name = "updateTime")
+    public Timestamp getUpdateTime() {
+        return updateTime;
+    }
 
-  public void setCreateTime(Date createTime) {
-    this.createTime = createTime;
-  }
+    public void setUpdateTime(Timestamp updateTime) {
+        this.updateTime = updateTime;
+    }
 
-  @Basic
-  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-  @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "update_time", nullable = true)
-  public Date getUpdateTime() {
-    return updateTime;
-  }
+    @Basic
+    @Column(name = "status")
+    public Integer getStatus() {
+        return status;
+    }
 
-  public void setUpdateTime(Date updateTime) {
-    this.updateTime = updateTime;
-  }
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
 
-  @Basic
-  @Column(name = "status", nullable = true)
-  public Boolean getStatus() {
-    return status;
-  }
+    @Basic
+    @Column(name = "articleCount")
+    public Integer getArticleCount() {
+        return articleCount;
+    }
 
-  public void setStatus(Boolean status) {
-    this.status = status;
-  }
+    public void setArticleCount(Integer articleCount) {
+        this.articleCount = articleCount;
+    }
 
-  @Basic
-  @Column(name = "article_count", nullable = true)
-  public Integer getArticleCount() {
-    return articleCount;
-  }
+    @Basic
+    @Column(name = "canDel")
+    public Integer getCanDel() {
+        return canDel;
+    }
 
-  public void setArticleCount(Integer articleCount) {
-    this.articleCount = articleCount;
-  }
+    public void setCanDel(Integer canDel) {
+        this.canDel = canDel;
+    }
 
-  @Basic
-  @Column(name = "can_del", nullable = false)
-  public boolean isCanDel() {
-    return canDel;
-  }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Category category = (Category) o;
+        return id == category.id &&
+                Objects.equals(name, category.name) &&
+                Objects.equals(createTime, category.createTime) &&
+                Objects.equals(updateTime, category.updateTime) &&
+                Objects.equals(status, category.status) &&
+                Objects.equals(articleCount, category.articleCount) &&
+                Objects.equals(canDel, category.canDel);
+    }
 
-  public void setCanDel(boolean canDel) {
-    this.canDel = canDel;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    Category category = (Category) o;
-    return aid == category.aid
-        && createTime == category.createTime
-        && canDel == category.canDel
-        && Objects.equals(id, category.id)
-        && Objects.equals(name, category.name)
-        && Objects.equals(updateTime, category.updateTime)
-        && Objects.equals(status, category.status)
-        && Objects.equals(articleCount, category.articleCount);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(aid, id, name, createTime, updateTime, status, articleCount, canDel);
-  }
-
-  @Override
-  public String toString() {
-    return "Category{" +
-            "aid=" + aid +
-            ", id='" + id + '\'' +
-            ", name='" + name + '\'' +
-            ", createTime=" + createTime +
-            ", updateTime=" + updateTime +
-            ", status=" + status +
-            ", articleCount=" + articleCount +
-            ", canDel=" + canDel +
-            '}';
-  }
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, createTime, updateTime, status, articleCount, canDel);
+    }
 }

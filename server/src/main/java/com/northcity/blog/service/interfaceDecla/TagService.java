@@ -7,11 +7,9 @@ import java.util.*;
 public interface TagService {
 	List<Tag> findAll();
 
-	Tag findTagById(String id);
-
-	List<Tag> findAllByOrderByCreateTimeDesc();
+	Tag findTagById(int id);
 
 	void saveAndFlush(Tag tag);
 
-	void deleteById(String id);
+	void deleteById(int id);
 }

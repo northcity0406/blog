@@ -69,25 +69,37 @@ export default {
   /**
    * 获取七牛token
    */
-  getQiniuToken (withWater) {
-    return axios.get('a/qiniu/token', {
-      params: {
-        bucket: 'blogimg',
-        withWater: withWater
-      }
-    })
-  },
+  // getQiniuToken (withWater) {
+  //   return 'dsjdjdsds'
+  //   // return axios.get('a/qiniu/token', {
+  //   //   params: {
+  //   //     bucket: 'blogimg',
+  //   //     withWater: withWater
+  //   //   }
+  //   // })
+  // },
   /**
-   * 上传图片到七牛
+   * 上传图片到SMMS
    */
-  uploadToQiniu (params) {
-    return axios.post('http://up-z2.qiniu.com', params, {
+  uploadToSMMS (params) {
+    return axios.post('https://sm.ms/api/upload', params, {
       headers: {
         'content-type': 'multipart/form-data'
       },
       withCredentials: false
     })
   },
+  // /**
+  //  * 上传图片到七牛
+  //  */
+  // uploadToSMMS (params) {
+  //   return axios.post('http://up-z2.qiniu.com', params, {
+  //     headers: {
+  //       'content-type': 'multipart/form-data'
+  //     },
+  //     withCredentials: false
+  //   })
+  // },
   /**
    * 获取博客配置
    */
@@ -272,6 +284,7 @@ export default {
    * 删除友链
    */
   deleteFriend (friendId) {
+    console.log('/a/friends/delete', Qs.stringify({friendId: friendId}))
     return axios.post('a/friends/delete', Qs.stringify({friendId: friendId}))
   },
   /**

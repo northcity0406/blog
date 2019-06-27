@@ -8,16 +8,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service("SyslogService")
 public class SyslogImpl implements SyslogService {
 	@Autowired
 	private SyslogRepository syslogRepository;
 
 	@Override
-	public SysLog save(SysLog sysLog) {
-		return syslogRepository.save(sysLog);
+	public void save(SysLog sysLog) {
+		syslogRepository.save(sysLog);
 	}
 
 	@Override

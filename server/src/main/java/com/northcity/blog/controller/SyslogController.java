@@ -1,8 +1,6 @@
 package com.northcity.blog.controller;
 
-import com.northcity.blog.entity.Friends;
 import com.northcity.blog.entity.SysLog;
-import com.northcity.blog.entity.Tag;
 import com.northcity.blog.response.BaseResponse;
 import com.northcity.blog.service.interfaceDecla.SyslogService;
 import org.slf4j.Logger;
@@ -26,6 +24,13 @@ public class SyslogController {
     @Autowired
     private SyslogService syslogService;
 
+    /**
+     * 返回所有的系统日志
+     * @param page 第几页
+     * @param pageSize 页的大小
+     * @return
+     */
+
     @RequestMapping(value = "/a/sys/log",method = {RequestMethod.GET,RequestMethod.POST})
     public BaseResponse<Page<SysLog>> findAll(
             @RequestParam("page") int page,
@@ -37,7 +42,13 @@ public class SyslogController {
         return getResponse(true,"所有日志!",pageable);
     }
 
-
+    /**
+     *
+     * @param success 动作是否成功
+     * @param msg   返回的消息
+     * @param pageable Pageable 参数
+     * @return
+     */
     private BaseResponse<Page<SysLog>> getResponse(boolean success, String msg, Pageable pageable){
         BaseResponse<Page<SysLog>> response = new BaseResponse<>();
         response.setSuccess(success);

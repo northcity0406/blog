@@ -20,7 +20,7 @@ public class CategoryImpl implements CategoryService {
 	}
 
 	@Override
-	public Category findCategoryById(String id) {
+	public Category findCategoryById(int id) {
 		return categoryRepository.findCategoryById(id);
 	}
 
@@ -30,7 +30,7 @@ public class CategoryImpl implements CategoryService {
 	}
 
 	@Override
-	public void deleteById(String id) {
+	public void deleteById(int id) {
 		categoryRepository.deleteById(id);
 	}
 }

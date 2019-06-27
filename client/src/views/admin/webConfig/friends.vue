@@ -160,7 +160,7 @@ export default {
         },
         under(friend) {
             this.showDialog("此操作会将该友链标删除，不能恢复, 是否继续?", () => {
-                this.deleteFriend(friend.friendId)
+                this.deleteFriend(friend.id)
                     .then(data => {
                         this.$toast("已删除");
                         this.page = 0;
@@ -240,8 +240,8 @@ export default {
                 params.typeName = this.typeValue
             }
 
-            if (this.friend.friendId) {
-                params.friendId = this.friend.friendId
+            if (this.friend.id) {
+                params.id = this.friend.id
                 this.modifyFriend(params)
                     .then((data) => {
                         this.$toast('已修改')

@@ -1,9 +1,6 @@
 package com.northcity.blog.dao;
 
 import com.northcity.blog.entity.Article;
-import com.northcity.blog.entity.ArticlePK;
-import com.northcity.blog.entity.Friends;
-import com.northcity.blog.entity.FriendsPK;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ArticleRepository extends PagingAndSortingRepository<Article, ArticlePK>, JpaRepository<Article,ArticlePK> {
+public interface ArticleRepository extends PagingAndSortingRepository<Article, Integer>, JpaRepository<Article,Integer> {
 
     @Override
     List<Article> findAll();
@@ -22,8 +19,8 @@ public interface ArticleRepository extends PagingAndSortingRepository<Article, A
     <S extends Article> S saveAndFlush(S s);
 
 
-    Article findArticleById(String id);
+    Article findArticleById(int id);
 
-    Page<Article> findAllByStatus(Pageable pageable,Byte status);
+    Page<Article> findAllByStatus(Pageable pageable,int status);
 
 }

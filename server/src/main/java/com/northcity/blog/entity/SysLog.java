@@ -1,75 +1,84 @@
 package com.northcity.blog.entity;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
-import javax.persistence.*;
-import java.io.Serializable;
-import java.util.Date;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
-@Table(name = "sys_log", schema = "blog", catalog = "")
-public class SysLog implements Serializable {
-  private int id;
-  private Date time;
-  private String content;
-  private String ip;
+public class SysLog {
+    private int id;
+    private Timestamp time;
+    private String action;
+    private String content;
+    private String ip;
 
-  @Id
-  @Column(name = "id", nullable = false)
-  public int getId() {
-    return id;
-  }
+    @Id
+    @Column(name = "id")
+    public int getId() {
+        return id;
+    }
 
-  public void setId(int id) {
-    this.id = id;
-  }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-  @Basic
-  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-  @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "time", nullable = false)
-  public Date getTime() {
-    return time;
-  }
+    @Basic
+    @Column(name = "time")
+    public Timestamp getTime() {
+        return time;
+    }
 
-  public void setTime(Date time) {
-    this.time = time;
-  }
+    public void setTime(Timestamp time) {
+        this.time = time;
+    }
 
-  @Basic
-  @Column(name = "content", nullable = true, length = -1)
-  public String getContent() {
-    return content;
-  }
+    @Basic
+    @Column(name = "action")
+    public String getAction() {
+        return action;
+    }
 
-  public void setContent(String content) {
-    this.content = content;
-  }
+    public void setAction(String action) {
+        this.action = action;
+    }
 
-  @Basic
-  @Column(name = "ip", nullable = true, length = 30)
-  public String getIp() {
-    return ip;
-  }
+    @Basic
+    @Column(name = "content")
+    public String getContent() {
+        return content;
+    }
 
-  public void setIp(String ip) {
-    this.ip = ip;
-  }
+    public void setContent(String content) {
+        this.content = content;
+    }
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    SysLog sysLog = (SysLog) o;
-    return id == sysLog.id
-        && time == sysLog.time
-        && Objects.equals(content, sysLog.content)
-        && Objects.equals(ip, sysLog.ip);
-  }
+    @Basic
+    @Column(name = "ip")
+    public String getIp() {
+        return ip;
+    }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, time, content, ip);
-  }
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SysLog log = (SysLog) o;
+        return id == log.id &&
+                Objects.equals(time, log.time) &&
+                Objects.equals(action, log.action) &&
+                Objects.equals(content, log.content) &&
+                Objects.equals(ip, log.ip);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, time, action, content, ip);
+    }
 }

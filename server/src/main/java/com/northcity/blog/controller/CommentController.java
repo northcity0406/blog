@@ -28,11 +28,6 @@ public class CommentController {
 	private HttpServletRequest request;
 
 	@Autowired
-	private StringRedisTemplate stringRedisTemplate;
-	@Autowired
-	private RedisTemplate redisTemplate;
-
-	@Autowired
 	private SyslogService syslogService;
 
 	@RequestMapping(value = "/list",method = {RequestMethod.GET,RequestMethod.POST})
@@ -53,7 +48,7 @@ public class CommentController {
 		result.setData(commentsService.findAll());
 
 		logger.info("[Comment删除 :]" + id);
-		syslogService.save(SysLogUtil.SaveSyslog("[Comment删除 :]" + id));
+		syslogService.save(SysLogUtil.SaveSyslog("[Comment删除 :]", id + ""));
 		return result;
 	}
 }

@@ -117,8 +117,9 @@ export default {
     },
     methods: {
         ...mapActions([
-            "getQiniuToken",
-            "uploadToQiniu",
+            // "getQiniuToken",
+            "uploadToSMMS",
+            // "uploadToQiniu",
             "getArticle",
             "getCategoryList",
             "getTagList",
@@ -184,52 +185,55 @@ export default {
             });
         },
         $imgAdd(pos, $file) {
+            console.log('pos', pos);
+            let formParams = new FormData();
+            formParams.append("smfile", $file);
+            this.startUploadImg(formParams, pos);
             console.log('pos', pos)
-            this.getQiniuToken(true)
-                .then(data => {
-                    let formParams = new FormData();
-                    formParams.append("token", data.token);
-                    formParams.append("file", $file);
-                    this.startUploadImg(formParams, pos);
-                })
-                .catch(err => {
-                    this.$toast(err.msg, "error");
-                });
         },
         startUploadImg(formParams, pos) {
-            this.uploadToQiniu(formParams)
-                .then(qiniuData => {
-                    this.$refs.md.$img2Url(pos, qiniuData.imgUrl);
+            console.log('SMMS', formParams)
+            this.uploadToSMMS(formParams)
+                .then(data => {
+                    console.log("SMMS",data)
+                    this.$refs.md.$img2Url(pos, data.url);
                 })
                 .catch(err => {
                     this.$toast("上传失败", "error");
                 });
         },
+
+        // startUploadImg(formParams, pos) {
+        //     this.uploadToQiniu(formParams)
+        //         .then(qiniuData => {
+        //             this.$refs.md.$img2Url(pos, qiniuData.imgUrl);
+        //         })
+        //         .catch(err => {
+        //             this.$toast("上传失败", "error");
+        //         });
+        // },
         uploadSuccess(url) {
             this.article.cover = url;
         },
         getCategory() {
+            console.log('category', this.category)
             let category = this.categoryList.find(
-                item => item.categoryName === this.category
+                item => item.name === this.category
             );
             if (category) {
-                return {
-                    id: category.categoryId
-                };
+                return category.id
             } else {
                 return {
-                    name: this.category
+                    name: category.name
                 };
             }
         },
         getTags() {
-            let tags = [];
+            let tags = "";
             this.tags.forEach(value => {
-                let tag = this.tagList.find(item => item.tagName === value);
+                let tag = this.tagList.find(item => item.name === value);
                 if (tag) {
-                    tags.push({
-                        id: tag.tagId
-                    });
+                    tags += tag.id + ",";
                 } else {
                     tags.push({
                         name: value
@@ -247,7 +251,7 @@ export default {
                 title: this.article.title,
                 cover: this.article.cover,
                 subMessage: this.article.subMessage,
-                isEncrypt: this.isEncrypt ? "1" : "0",
+                isEncrypt: this.isEncrypt ? 0 : 1,
                 content: this.article.content,
                 htmlContent: html
             };
@@ -283,6 +287,7 @@ export default {
         },
         save() {
             let params = this.getParams();
+            console.log('params', params)
             this.saveArticle(params)
                 .then(data => {
                     this.$toast("已保存");

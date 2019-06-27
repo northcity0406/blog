@@ -9,8 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+
 import java.util.*;
 
 @RestController
@@ -24,13 +23,13 @@ public class BlogConfigController {
 
 	@RequestMapping(value = "/a/webConfig/modify",method= {RequestMethod.GET,RequestMethod.POST})
 	public BaseResponse<BlogConfig> modifyWebConfig(@RequestParam(value = "blogName",required = true) String blogName,
-	                                  @RequestParam(value = "avatar",required = true) String avatar,
-	                                  @RequestParam(value = "sign",required = false) String sign,
-	                                  @RequestParam(value = "wxpayQrcode",required = false) String wxpayQrcode,
-	                                  @RequestParam(value = "alipayQrcode",required = false) String alipayQrcode,
-	                                  @RequestParam(value = "github",required = false) String github,
-	                                  @RequestParam(value = "viewPassword",required = false) String viewPassword,
-	                                  @RequestParam(value = "salt",required = false) String salt){
+													@RequestParam(value = "avatar",required = true) String avatar,
+													@RequestParam(value = "sign",required = false) String sign,
+													@RequestParam(value = "wxpayQrcode",required = false) String wxpayQrcode,
+													@RequestParam(value = "alipayQrcode",required = false) String alipayQrcode,
+													@RequestParam(value = "github",required = false) String github,
+													@RequestParam(value = "viewPassword",required = false) String viewPassword,
+													@RequestParam(value = "salt",required = false) String salt){
 		BlogConfig b = new BlogConfig();
 		b.setBlogName(blogName);
 		b.setAvatar(avatar);
@@ -42,7 +41,7 @@ public class BlogConfigController {
 		if(salt != null) b.setSalt(salt);
 		blogConfigService.saveAndFlush(b);
 		logger.info("[修改页面配置:]" + b.toString());
-		syslogService.save(SysLogUtil.SaveSyslog("[修改页面配置:]" + b.toString()));
+		syslogService.save(SysLogUtil.SaveSyslog("[修改页面配置:]", b.toString()));
 		BaseResponse<BlogConfig> result = new BaseResponse<BlogConfig>();
 		result.setSuccess(true);
 		result.setMsg("保存成功!");

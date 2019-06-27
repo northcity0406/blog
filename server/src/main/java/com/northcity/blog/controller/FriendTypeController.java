@@ -19,6 +19,11 @@ public class FriendTypeController {
 	@Resource
 	private FriendTypeService friendTypeService;
 
+	/**
+	 * 获取全部友链类型
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping({"/a/friendtype"})
 	public FriendsType getFriendTypeById(@RequestParam("id") int id){
 		return friendTypeService.getFriendsTypeById(id);

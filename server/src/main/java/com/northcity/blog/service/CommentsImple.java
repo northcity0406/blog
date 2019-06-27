@@ -19,7 +19,7 @@ public class CommentsImple implements CommentsService {
 	}
 
 	@Override
-	public void deleteById(Integer integer) {
-		commentsService.deleteById(integer);
+	public void deleteById(int id) {
+		commentsService.deleteById(id);
 	}
 }

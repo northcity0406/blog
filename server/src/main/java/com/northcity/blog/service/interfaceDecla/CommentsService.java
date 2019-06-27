@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface CommentsService {
 	List<Comments> findAll();
-	void deleteById(Integer integer);
+	void deleteById(int id);
 }

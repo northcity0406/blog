@@ -25,7 +25,7 @@
       <message-card title="系统日志">
         <div slot="content">
           <div class="log-content" v-for="(log, index) in sysLogList" :key="index">
-            <p>IP地址: {{ log.ip }}&nbsp;&nbsp; {{ formatTime(log.time) }} => {{ log.content }}</p>
+            <p>IP地址: {{ log.ip }}&nbsp;&nbsp; {{ formatTime(log.time) }} => {{ log.action }}</p>
           </div>
           <p class="more-log">
             <span v-if="logParams.page > 0 && !loadLogMore" @click="getLog(logParams.page - 1)">上一页</span>

@@ -15,20 +15,12 @@ import java.util.List;
 
 @Service("FriendsService")
 public class FriendsImpl implements FriendsService {
-	Logger logger = LoggerFactory.getLogger(FriendsImpl.class);
-
 	@Autowired
 	private FriendsRepository friendsRepository;
 
 	@Override
-	public Friends findFriendsByAid(int aid) {
-		logger.info("id :" + aid);
-		return friendsRepository.findFriendsByAid(aid);
-	}
-
-	@Override
-	public Friends findFriendsByFriendId(String friendid) {
-		return friendsRepository.findFriendsByFriendId(friendid);
+	public Friends findFriendsById(int friendId) {
+		return friendsRepository.findFriendsById(friendId);
 	}
 
 	@Override
@@ -37,11 +29,6 @@ public class FriendsImpl implements FriendsService {
 	}
 
 	@Transactional
-	@Override
-	public void deleteByAid(int aid) {
-		friendsRepository.deleteByAid(aid);
-	}
-
 	@Override
 	public void deleteByFriendId(Friends friends) {
 		friendsRepository.delete(friends);

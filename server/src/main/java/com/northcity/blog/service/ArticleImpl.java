@@ -21,19 +21,18 @@ public class ArticleImpl implements ArticleService {
         return articleRepository.findAll();
     }
 
-
-    public Page<Article> findAllByStatus(Pageable pageable,Byte status){
+    @Override
+    public Page<Article> findAllByStatus(Pageable pageable, int status) {
         return articleRepository.findAllByStatus(pageable,status);
     }
 
-
     @Override
-    public void saveAndFlush(Article article) {
-        articleRepository.saveAndFlush(article);
+    public Article saveAndFlush(Article article) {
+        return articleRepository.saveAndFlush(article);
     }
 
     @Override
-    public Article findArticleById(String id) {
+    public Article findArticleById(int id) {
         return articleRepository.findArticleById(id);
     }
 }

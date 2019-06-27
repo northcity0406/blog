@@ -1,228 +1,226 @@
 package com.northcity.blog.entity;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
-import javax.persistence.*;
-import java.io.Serializable;
-import java.util.Date;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
-@IdClass(ArticlePK.class)
-public class Article implements Serializable {
-  private int aid;
-  private String id;
-  private String title;
-  private String categoryId;
-  private Date createTime;
-  private Date deleteTime;
-  private Date updateTime;
-  private Date publishTime;
-  private Byte status;
-  private String content;
-  private String htmlContent;
-  private String cover;
-  private String subMessage;
-  private Integer pageview;
-  private Boolean isEncrypt;
+public class Article {
+    private int id;
+    private int userId;
+    private String title;
+    private int categoryId;
+    private Timestamp createTime;
+    private Timestamp deleteTime;
+    private Timestamp updateTime;
+    private Timestamp publishTime;
+    private int status;
+    private String content;
+    private String htmlContent;
+    private String cover;
+    private String subMessage;
+    private int pageview;
+    private Integer isEncrypt;
 
-  @Id
-  @Column(name = "aid", nullable = false)
-  public int getAid() {
-    return aid;
-  }
+    @Id
+    @Column(name = "id")
+    public int getId() {
+        return id;
+    }
 
-  public void setAid(int aid) {
-    this.aid = aid;
-  }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-  @Id
-  @Column(name = "id", nullable = false, length = 128)
-  public String getId() {
-    return id;
-  }
+    @Basic
+    @Column(name = "userID")
+    public int getUserId() {
+        return userId;
+    }
 
-  public void setId(String id) {
-    this.id = id;
-  }
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
 
-  @Basic
-  @Column(name = "title", nullable = true, length = 255)
-  public String getTitle() {
-    return title;
-  }
+    @Basic
+    @Column(name = "title")
+    public String getTitle() {
+        return title;
+    }
 
-  public void setTitle(String title) {
-    this.title = title;
-  }
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-  @Basic
-  @Column(name = "category_id", nullable = true, length = 128)
-  public String getCategoryId() {
-    return categoryId;
-  }
+    @Basic
+    @Column(name = "categoryID")
+    public int getCategoryId() {
+        return categoryId;
+    }
 
-  public void setCategoryId(String categoryId) {
-    this.categoryId = categoryId;
-  }
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
+    }
 
-  @Basic
-  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-  @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "create_time", nullable = false)
-  public Date getCreateTime() {
-    return createTime;
-  }
+    @Basic
+    @Column(name = "createTime")
+    public Timestamp getCreateTime() {
+        return createTime;
+    }
 
-  public void setCreateTime(Date createTime) {
-    this.createTime = createTime;
-  }
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
+    }
 
-  @Basic
-  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-  @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "delete_time", nullable = true)
-  public Date getDeleteTime() {
-    return deleteTime;
-  }
+    @Basic
+    @Column(name = "deleteTime")
+    public Timestamp getDeleteTime() {
+        return deleteTime;
+    }
 
-  public void setDeleteTime(Date deleteTime) {
-    this.deleteTime = deleteTime;
-  }
+    public void setDeleteTime(Timestamp deleteTime) {
+        this.deleteTime = deleteTime;
+    }
 
-  @Basic
-  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-  @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "update_time", nullable = true)
-  public Date getUpdateTime() {
-    return updateTime;
-  }
+    @Basic
+    @Column(name = "updateTime")
+    public Timestamp getUpdateTime() {
+        return updateTime;
+    }
 
-  public void setUpdateTime(Date updateTime) {
-    this.updateTime = updateTime;
-  }
+    public void setUpdateTime(Timestamp updateTime) {
+        this.updateTime = updateTime;
+    }
 
-  @Basic
-  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-  @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "publish_time", nullable = true)
-  public Date getPublishTime() {
-    return publishTime;
-  }
+    @Basic
+    @Column(name = "publishTime")
+    public Timestamp getPublishTime() {
+        return publishTime;
+    }
 
-  public void setPublishTime(Date publishTime) {
-    this.publishTime = publishTime;
-  }
+    public void setPublishTime(Timestamp publishTime) {
+        this.publishTime = publishTime;
+    }
 
-  @Basic
-  @Column(name = "status", nullable = true)
-  public Byte getStatus() {
-    return status;
-  }
+    @Basic
+    @Column(name = "status")
+    public int getStatus() {
+        return status;
+    }
 
-  public void setStatus(Byte status) {
-    this.status = status;
-  }
+    public void setStatus(int status) {
+        this.status = status;
+    }
 
-  @Basic
-  @Column(name = "content", nullable = true, length = -1)
-  public String getContent() {
-    return content;
-  }
+    @Basic
+    @Column(name = "content")
+    public String getContent() {
+        return content;
+    }
 
-  public void setContent(String content) {
-    this.content = content;
-  }
+    public void setContent(String content) {
+        this.content = content;
+    }
 
-  @Basic
-  @Column(name = "html_content", nullable = true, length = -1)
-  public String getHtmlContent() {
-    return htmlContent;
-  }
+    @Basic
+    @Column(name = "htmlContent")
+    public String getHtmlContent() {
+        return htmlContent;
+    }
 
-  public void setHtmlContent(String htmlContent) {
-    this.htmlContent = htmlContent;
-  }
+    public void setHtmlContent(String htmlContent) {
+        this.htmlContent = htmlContent;
+    }
 
-  @Basic
-  @Column(name = "cover", nullable = true, length = -1)
-  public String getCover() {
-    return cover;
-  }
+    @Basic
+    @Column(name = "cover")
+    public String getCover() {
+        return cover;
+    }
 
-  public void setCover(String cover) {
-    this.cover = cover;
-  }
+    public void setCover(String cover) {
+        this.cover = cover;
+    }
 
-  @Basic
-  @Column(name = "sub_message", nullable = true, length = -1)
-  public String getSubMessage() {
-    return subMessage;
-  }
+    @Basic
+    @Column(name = "subMessage")
+    public String getSubMessage() {
+        return subMessage;
+    }
 
-  public void setSubMessage(String subMessage) {
-    this.subMessage = subMessage;
-  }
+    public void setSubMessage(String subMessage) {
+        this.subMessage = subMessage;
+    }
 
-  @Basic
-  @Column(name = "pageview", nullable = true)
-  public Integer getPageview() {
-    return pageview;
-  }
+    @Basic
+    @Column(name = "pageview")
+    public int getPageview() {
+        return pageview;
+    }
 
-  public void setPageview(Integer pageview) {
-    this.pageview = pageview;
-  }
+    public void setPageview(int pageview) {
+        this.pageview = pageview;
+    }
 
-  @Basic
-  @Column(name = "is_encrypt", nullable = true)
-  public Boolean getEncrypt() {
-    return isEncrypt;
-  }
+    @Basic
+    @Column(name = "isEncrypt")
+    public Integer getIsEncrypt() {
+        return isEncrypt;
+    }
 
-  public void setEncrypt(Boolean encrypt) {
-    isEncrypt = encrypt;
-  }
+    public void setIsEncrypt(Integer isEncrypt) {
+        this.isEncrypt = isEncrypt;
+    }
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    Article article = (Article) o;
-    return aid == article.aid
-        && createTime == article.createTime
-        && Objects.equals(id, article.id)
-        && Objects.equals(title, article.title)
-        && Objects.equals(categoryId, article.categoryId)
-        && Objects.equals(deleteTime, article.deleteTime)
-        && Objects.equals(updateTime, article.updateTime)
-        && Objects.equals(publishTime, article.publishTime)
-        && Objects.equals(status, article.status)
-        && Objects.equals(content, article.content)
-        && Objects.equals(htmlContent, article.htmlContent)
-        && Objects.equals(cover, article.cover)
-        && Objects.equals(subMessage, article.subMessage)
-        && Objects.equals(pageview, article.pageview)
-        && Objects.equals(isEncrypt, article.isEncrypt);
-  }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Article article = (Article) o;
+        return id == article.id &&
+                userId == article.userId &&
+                categoryId == article.categoryId &&
+                status == article.status &&
+                pageview == article.pageview &&
+                Objects.equals(title, article.title) &&
+                Objects.equals(createTime, article.createTime) &&
+                Objects.equals(deleteTime, article.deleteTime) &&
+                Objects.equals(updateTime, article.updateTime) &&
+                Objects.equals(publishTime, article.publishTime) &&
+                Objects.equals(content, article.content) &&
+                Objects.equals(htmlContent, article.htmlContent) &&
+                Objects.equals(cover, article.cover) &&
+                Objects.equals(subMessage, article.subMessage) &&
+                Objects.equals(isEncrypt, article.isEncrypt);
+    }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(
-        aid,
-        id,
-        title,
-        categoryId,
-        createTime,
-        deleteTime,
-        updateTime,
-        publishTime,
-        status,
-        content,
-        htmlContent,
-        cover,
-        subMessage,
-        pageview,
-        isEncrypt);
-  }
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, userId, title, categoryId, createTime, deleteTime, updateTime, publishTime, status, content, htmlContent, cover, subMessage, pageview, isEncrypt);
+    }
+
+
+    @Override
+    public String toString() {
+        return "Article{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", title='" + title + '\'' +
+                ", categoryId=" + categoryId +
+                ", createTime=" + createTime +
+                ", deleteTime=" + deleteTime +
+                ", updateTime=" + updateTime +
+                ", publishTime=" + publishTime +
+                ", status=" + status +
+                ", content='" + content + '\'' +
+                ", htmlContent='" + htmlContent + '\'' +
+                ", cover='" + cover + '\'' +
+                ", subMessage='" + subMessage + '\'' +
+                ", pageview=" + pageview +
+                ", isEncrypt=" + isEncrypt +
+                '}';
+    }
 }

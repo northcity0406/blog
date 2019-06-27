@@ -9,11 +9,11 @@ import java.util.List;
 public interface ArticleService {
     List<Article> findAll();
 
-    Page<Article> findAllByStatus(Pageable pageable,Byte status);
+    Page<Article> findAllByStatus(Pageable pageable, int status);
 
-    void saveAndFlush(Article article);
+    Article saveAndFlush(Article article);
 
-    Article findArticleById(String id);
+    Article findArticleById(int id);
 
 
 }

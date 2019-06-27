@@ -7,13 +7,10 @@ import java.util.*;
 
 
 public interface FriendsService {
-	Friends findFriendsByAid(int aid);
-
-	Friends findFriendsByFriendId(String friendid);
+	Friends findFriendsById(int friendId);
 
 	List<Friends> findAll();
 
-	void deleteByAid(int aid);
 
 	void deleteByFriendId(Friends friends);
 

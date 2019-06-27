@@ -94,8 +94,8 @@ const actions = {
     cachedCommentsInfo.save(commentsInfo)
     store.state.commentsInfo = commentsInfo
   },
-  uploadToQiniu (store, params) {
-    return api.uploadToQiniu(params)
+  uploadToSMMS (store, params) {
+    return api.uploadToSMMS(params)
       .then((data) => {
         return Promise.resolve(data)
       })
@@ -103,6 +103,15 @@ const actions = {
         return Promise.reject(error)
       })
   }
+  // uploadToQiniu (store, params) {
+  //   return api.uploadToQiniu(params)
+  //     .then((data) => {
+  //       return Promise.resolve(data)
+  //     })
+  //     .catch((error) => {
+  //       return Promise.reject(error)
+  //     })
+  // }
 }
 
 export default {

@@ -72,18 +72,18 @@ const actions = {
     store.commit(IS_LOGIN, false)
     store.commit(SET_ADMIN_INFO, {})
   },
-  /**
-   * 获取七牛token
-   */
-  getQiniuToken (store, withWater = true) {
-    return api.getQiniuToken(withWater)
-      .then((data) => {
-        return Promise.resolve(data.data)
-      })
-      .catch((error) => {
-        return Promise.reject(error)
-      })
-  },
+  // /**
+  //  * 获取七牛token
+  //  */
+  // getQiniuToken (store, withWater = true) {
+  //   return api.getQiniuToken(withWater)
+  //     .then((data) => {
+  //       return Promise.resolve(data.data)
+  //     })
+  //     .catch((error) => {
+  //       return Promise.reject(error)
+  //     })
+  // },
   /**
    * 获取博客配置
    */

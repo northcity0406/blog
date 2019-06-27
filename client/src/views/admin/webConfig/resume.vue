@@ -77,27 +77,32 @@ export default {
   },
   methods: {
     ...mapActions([
-      'getQiniuToken',
-      'uploadToQiniu',
+      // 'getQiniuToken',
+      'uploadToSMMS',
+      // 'uploadToQiniu',
       'getResume',
       'modifyResume'
     ]),
     $imgAdd(pos, $file) {
-      this.getQiniuToken(true)
-        .then((data) => {
           let formParams = new FormData()
-          formParams.append('token', data.token)
-          formParams.append('file', $file)
+          // formParams.append('token', data.token)
+          formParams.append('smfile', $file)
           this.startUploadImg(formParams, pos)
-        })
-        .catch((err) => {
-          this.$toast(err.msg, 'error')
-        })
+      // this.getQiniuToken(true)
+      //   .then((data) => {
+      //     let formParams = new FormData()
+      //     formParams.append('token', data.token)
+      //     formParams.append('file', $file)
+      //     this.startUploadImg(formParams, pos)
+      //   })
+      //   .catch((err) => {
+      //     this.$toast(err.msg, 'error')
+      //   })
     },
     startUploadImg (formParams, pos) {
-      this.uploadToQiniu(formParams)
-        .then((qiniuData) => {
-          this.$refs.md.$img2Url(pos, qiniuData.imgUrl)
+      this.uploadToSMMS(formParams)
+        .then((data) => {
+          this.$refs.md.$img2Url(pos, data.url)
         })
         .catch((err) => {
           this.$toast('上传失败', 'error')

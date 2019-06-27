@@ -21,22 +21,16 @@ public class TagImpl implements TagService {
 	}
 
 	@Override
-	public Tag findTagById(String id) {
-		return tagRepository.findTagById(id);
+	public Tag findTagById(int id) {
+		return tagRepository.findById(id);
 	}
-
-	@Override
-	public List<Tag> findAllByOrderByCreateTimeDesc() {
-		return tagRepository.findAllByOrderByCreateTimeDesc();
-	}
-
 	@Override
 	public void saveAndFlush(Tag tag) {
 		tagRepository.saveAndFlush(tag);
 	}
 
 	@Override
-	public void deleteById(String id) {
+	public void deleteById(int id) {
 		tagRepository.deleteById(id);
 	}
 

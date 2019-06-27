@@ -25,7 +25,7 @@ public class TokenUtil {
 		Date date = new Date(System.currentTimeMillis() + EXPIRE_TIME);
 		Algorithm algorithm = Algorithm.HMAC256(admin.getPassword());
 		String token = JWT.create()
-				.withClaim("username", admin.getUsername())
+				.withClaim("username", admin.getName())
 				.withExpiresAt(date)
 				.sign(algorithm);
 		// 附带username信息

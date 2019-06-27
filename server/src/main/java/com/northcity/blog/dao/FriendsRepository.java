@@ -1,8 +1,6 @@
 package com.northcity.blog.dao;
 
-import com.northcity.blog.entity.Admin;
 import com.northcity.blog.entity.Friends;
-import com.northcity.blog.entity.FriendsPK;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,8 +11,7 @@ import java.util.List;
 
 @Repository
 public interface FriendsRepository extends
-        PagingAndSortingRepository<Friends, FriendsPK>,
-        JpaRepository<Friends,FriendsPK> {
+        PagingAndSortingRepository<Friends, Integer>,JpaRepository<Friends,Integer>{
 
   @Override
   List<Friends> findAll();
@@ -22,9 +19,7 @@ public interface FriendsRepository extends
   Page<Friends> findAll(Pageable pageable);
 
 
-  Friends findFriendsByAid(int aid);
-
-  Friends findFriendsByFriendId(String friendid);
+  Friends findFriendsById(int friendid);
 
   @Override
   <S extends Friends> S saveAndFlush(S s);
@@ -32,5 +27,5 @@ public interface FriendsRepository extends
   @Override
   void delete(Friends friends);
 
-  void deleteByAid(int aid);
+  void deleteById(int friendId);
 }

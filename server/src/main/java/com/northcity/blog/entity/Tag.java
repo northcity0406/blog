@@ -1,125 +1,96 @@
 package com.northcity.blog.entity;
 
-import org.springframework.format.annotation.DateTimeFormat;
-import javax.persistence.*;
-import java.io.Serializable;
-import java.util.Date;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
-@IdClass(TagPK.class)
-public class Tag implements Serializable {
-  private int aid;
-  private String id;
-  private String name;
-  private Date createTime;
-  private Date updateTime;
-  private Boolean status;
-  private Integer articleCount;
+public class Tag {
+    private int id;
+    private String name;
+    private Timestamp createTime;
+    private Timestamp updateTime;
+    private Integer status;
+    private Integer articleCount;
 
-  @Id
-  @Column(name = "aid", nullable = false)
-  public int getAid() {
-    return aid;
-  }
+    @Id
+    @Column(name = "id")
+    public int getId() {
+        return id;
+    }
 
-  public void setAid(int aid) {
-    this.aid = aid;
-  }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-  @Id
-  @Column(name = "id", nullable = false, length = 128)
-  public String getId() {
-    return id;
-  }
+    @Basic
+    @Column(name = "name")
+    public String getName() {
+        return name;
+    }
 
-  public void setId(String id) {
-    this.id = id;
-  }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-  @Basic
-  @Column(name = "name", nullable = true, length = 255)
-  public String getName() {
-    return name;
-  }
+    @Basic
+    @Column(name = "createTime")
+    public Timestamp getCreateTime() {
+        return createTime;
+    }
 
-  public void setName(String name) {
-    this.name = name;
-  }
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
+    }
 
-  @Basic
-  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-  @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "create_time", nullable = false)
-  public Date getCreateTime() {
-    return createTime;
-  }
+    @Basic
+    @Column(name = "updateTime")
+    public Timestamp getUpdateTime() {
+        return updateTime;
+    }
 
-  public void setCreateTime(Date createTime) {
-    this.createTime = createTime;
-  }
+    public void setUpdateTime(Timestamp updateTime) {
+        this.updateTime = updateTime;
+    }
 
-  @Basic
-  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-  @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "update_time", nullable = true)
-  public Date getUpdateTime() {
-    return updateTime;
-  }
+    @Basic
+    @Column(name = "status")
+    public Integer getStatus() {
+        return status;
+    }
 
-  public void setUpdateTime(Date updateTime) {
-    this.updateTime = updateTime;
-  }
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
 
-  @Basic
-  @Column(name = "status", nullable = true)
-  public Boolean getStatus() {
-    return status;
-  }
+    @Basic
+    @Column(name = "articleCount")
+    public Integer getArticleCount() {
+        return articleCount;
+    }
 
-  public void setStatus(Boolean status) {
-    this.status = status;
-  }
+    public void setArticleCount(Integer articleCount) {
+        this.articleCount = articleCount;
+    }
 
-  @Basic
-  @Column(name = "article_count", nullable = true)
-  public Integer getArticleCount() {
-    return articleCount;
-  }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Tag tag = (Tag) o;
+        return id == tag.id &&
+                Objects.equals(name, tag.name) &&
+                Objects.equals(createTime, tag.createTime) &&
+                Objects.equals(updateTime, tag.updateTime) &&
+                Objects.equals(status, tag.status) &&
+                Objects.equals(articleCount, tag.articleCount);
+    }
 
-  public void setArticleCount(Integer articleCount) {
-    this.articleCount = articleCount;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    Tag tag = (Tag) o;
-    return aid == tag.aid
-        && createTime == tag.createTime
-        && Objects.equals(id, tag.id)
-        && Objects.equals(name, tag.name)
-        && Objects.equals(updateTime, tag.updateTime)
-        && Objects.equals(status, tag.status)
-        && Objects.equals(articleCount, tag.articleCount);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(aid, id, name, createTime, updateTime, status, articleCount);
-  }
-
-  @Override
-  public String toString() {
-    return "Tag{" +
-            "aid=" + aid +
-            ", id='" + id + '\'' +
-            ", name='" + name + '\'' +
-            ", createTime=" + createTime +
-            ", updateTime=" + updateTime +
-            ", status=" + status +
-            ", articleCount=" + articleCount +
-            '}';
-  }
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, createTime, updateTime, status, articleCount);
+    }
 }

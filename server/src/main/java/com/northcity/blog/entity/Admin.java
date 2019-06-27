@@ -1,176 +1,156 @@
 package com.northcity.blog.entity;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
-import javax.persistence.*;
-import java.io.Serializable;
-import java.util.Date;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
-@IdClass(AdminPK.class)
-public class Admin implements Serializable {
-  private int aid;
-  private String userId;
-  private String username;
-  private String password;
-  private String salt;
-  private String accessToken;
-  private Integer tokenExpiresIn;
-  private Date createTime;
-  private boolean status;
-  private Date lastLoginTime;
+public class Admin {
+    private int id;
+    private String name;
+    private String password;
+    private String salt;
+    private String accessToken;
+    private Integer tokenExpiresIn;
+    private int status;
+    private Timestamp lastLoginTime;
+    private Boolean admin;
+    private Timestamp createTime;
+    private String token;
 
-  @Id
-  @Column(name = "aid", nullable = false)
-  public int getAid() {
-    return aid;
-  }
+    @Id
+    @Column(name = "id")
+    public int getId() {
+        return id;
+    }
 
-  public void setAid(int aid) {
-    this.aid = aid;
-  }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-  @Id
-  @Column(name = "user_id", nullable = false, length = 128)
-  public String getUserId() {
-    return userId;
-  }
+    @Basic
+    @Column(name = "name")
+    public String getName() {
+        return name;
+    }
 
-  public void setUserId(String userId) {
-    this.userId = userId;
-  }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-  @Basic
-  @Column(name = "username", nullable = false, length = 255)
-  public String getUsername() {
-    return username;
-  }
+    @Basic
+    @Column(name = "password")
+    public String getPassword() {
+        return password;
+    }
 
-  public void setUsername(String username) {
-    this.username = username;
-  }
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-  @Basic
-  @Column(name = "password", nullable = false, length = 255)
-  public String getPassword() {
-    return password;
-  }
+    @Basic
+    @Column(name = "salt")
+    public String getSalt() {
+        return salt;
+    }
 
-  public void setPassword(String password) {
-    this.password = password;
-  }
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
 
-  @Basic
-  @Column(name = "salt", nullable = false, length = 255)
-  public String getSalt() {
-    return salt;
-  }
+    @Basic
+    @Column(name = "access_token")
+    public String getAccessToken() {
+        return accessToken;
+    }
 
-  public void setSalt(String salt) {
-    this.salt = salt;
-  }
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
 
-  @Basic
-  @Column(name = "access_token", nullable = true, length = 255)
-  public String getAccessToken() {
-    return accessToken;
-  }
+    @Basic
+    @Column(name = "token_expires_in")
+    public Integer getTokenExpiresIn() {
+        return tokenExpiresIn;
+    }
 
-  public void setAccessToken(String accessToken) {
-    this.accessToken = accessToken;
-  }
+    public void setTokenExpiresIn(Integer tokenExpiresIn) {
+        this.tokenExpiresIn = tokenExpiresIn;
+    }
 
-  @Basic
-  @Column(name = "token_expires_in", nullable = true)
-  public Integer getTokenExpiresIn() {
-    return tokenExpiresIn;
-  }
+    @Basic
+    @Column(name = "status")
+    public int getStatus() {
+        return status;
+    }
 
-  public void setTokenExpiresIn(Integer tokenExpiresIn) {
-    this.tokenExpiresIn = tokenExpiresIn;
-  }
+    public void setStatus(int status) {
+        this.status = status;
+    }
 
-  @Basic
-  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-  @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "create_time", nullable = true)
-  public Date getCreateTime() {
-    return createTime;
-  }
+    @Basic
+    @Column(name = "last_login_time")
+    public Timestamp getLastLoginTime() {
+        return lastLoginTime;
+    }
 
-  public void setCreateTime(Date createTime) {
-    this.createTime = createTime;
-  }
+    public void setLastLoginTime(Timestamp lastLoginTime) {
+        this.lastLoginTime = lastLoginTime;
+    }
 
-  @Basic
-  @Column(name = "status", nullable = false)
-  public boolean isStatus() {
-    return status;
-  }
+    @Basic
+    @Column(name = "admin")
+    public Boolean getAdmin() {
+        return admin;
+    }
 
-  public void setStatus(boolean status) {
-    this.status = status;
-  }
+    public void setAdmin(Boolean admin) {
+        this.admin = admin;
+    }
 
-  @Basic
-  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-  @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "last_login_time", nullable = true)
-  public Date getLastLoginTime() {
-    return lastLoginTime;
-  }
+    @Basic
+    @Column(name = "create_time")
+    public Timestamp getCreateTime() {
+        return createTime;
+    }
 
-  public void setLastLoginTime(Date lastLoginTime) {
-    this.lastLoginTime = lastLoginTime;
-  }
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
+    }
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    Admin admin = (Admin) o;
-    return aid == admin.aid
-        && status == admin.status
-        && Objects.equals(userId, admin.userId)
-        && Objects.equals(username, admin.username)
-        && Objects.equals(password, admin.password)
-        && Objects.equals(salt, admin.salt)
-        && Objects.equals(accessToken, admin.accessToken)
-        && Objects.equals(tokenExpiresIn, admin.tokenExpiresIn)
-        && Objects.equals(createTime, admin.createTime)
-        && Objects.equals(lastLoginTime, admin.lastLoginTime);
-  }
+    @Basic
+    @Column(name = "token")
+    public String getToken() {
+        return token;
+    }
 
-	@Override
-  public int hashCode() {
-    return Objects.hash(
-        aid,
-        userId,
-        username,
-        password,
-        salt,
-        accessToken,
-        tokenExpiresIn,
-        createTime,
-        status,
-        lastLoginTime);
-  }
+    public void setToken(String token) {
+        this.token = token;
+    }
 
-	@Override
-	public String toString() {
-		return "Admin{" +
-				"aid=" + aid +
-				", userId='" + userId + '\'' +
-				", username='" + username + '\'' +
-				", password='" + password + '\'' +
-				", salt='" + salt + '\'' +
-				", accessToken='" + accessToken + '\'' +
-				", tokenExpiresIn=" + tokenExpiresIn +
-				", createTime=" + createTime +
-				", status=" + status +
-				", lastLoginTime=" + lastLoginTime +
-				'}';
-	}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Admin admin1 = (Admin) o;
+        return id == admin1.id &&
+                status == admin1.status &&
+                Objects.equals(name, admin1.name) &&
+                Objects.equals(password, admin1.password) &&
+                Objects.equals(salt, admin1.salt) &&
+                Objects.equals(accessToken, admin1.accessToken) &&
+                Objects.equals(tokenExpiresIn, admin1.tokenExpiresIn) &&
+                Objects.equals(lastLoginTime, admin1.lastLoginTime) &&
+                Objects.equals(admin, admin1.admin) &&
+                Objects.equals(createTime, admin1.createTime) &&
+                Objects.equals(token, admin1.token);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, password, salt, accessToken, tokenExpiresIn, status, lastLoginTime, admin, createTime, token);
+    }
 }

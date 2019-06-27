@@ -11,10 +11,9 @@
     <el-upload
       ref="upload"
       class="cover-uploader"
-      action="http://up-z2.qiniu.com"
-      :data="token"
+      action=""
       :show-file-list="false"
-      :auto-upload="false"
+      :auto-upload="true"
       :on-success="handleAvatarSuccess"
       :before-upload="beforeAvatarUpload"
       :on-change="onFileChange"
@@ -78,7 +77,10 @@ export default {
       },
       token: {},
       uploadProgress: 0,
-      calcHeight: 0
+      calcHeight: 0,
+      uploadData:{
+        smfile:''
+      }
     }
   },
   created() {
@@ -103,7 +105,7 @@ export default {
   },
   methods: {
     ...mapActions([
-      'getQiniuToken'
+      'uploadToSMMS'
     ]),
     onFileChange (file, fileList) {
       if (file.status === 'ready') {
@@ -125,22 +127,40 @@ export default {
 
         this.$refs.cropperBox.show()
         this.$refs.cropperBox.loadCropper(file.raw)
+        this.uploadData.smfile = file
       }
     },
     finishCropImage (newFile) {
       this.newFile = newFile
-      this.getQiniuToken(true)
-        .then((data) => {
-          this.token = data
-          this.$refs.upload.submit()
-        })
+      let formParams = new FormData();
+      // console.log('qiniuToken', data)
+      // formParams.append("token", data.token);
+      formParams.append("smfile", this.newFile);
+      this.startUploadImg(formParams);
+      // this.getQiniuToken(true)
+      //   .then((data) => {
+      //     this.token = data
+      //     this.$refs.upload.submit()
+      //   })
     },
+
+    startUploadImg(formParams, pos) {
+        this.uploadToSMMS(formParams)
+            .then(data => {
+                console.log("SMMS",data)
+                // this.$refs.upload.submit()
+            })
+            .catch(err => {
+                this.$toast("上传失败", "error");
+            });
+    },
+
     handleAvatarSuccess (response, file) {
-      this.$emit('uploadSuccess', response.imgUrl)
+      this.$emit('uploadSuccess', response.url)
       this.$refs.cropperBox.close()
     },
     beforeAvatarUpload (file) {
-      let uploadFile = new window.File([this.newFile], file.name, { type: this.newFile.type })
+      let uploadFile = new window.File([this.newFile], file.name)
       uploadFile.uid = this.newFile.uid
       return Promise.resolve(uploadFile)
     },

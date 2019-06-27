@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -74,12 +75,12 @@ public class ArticleController {
     @Transactional
     @RequestMapping(value = "/a/article/delete",method = {RequestMethod.GET,RequestMethod.POST})
     public BaseResponse<Page<Article>> deleteFriendsByAid(
-            @RequestParam("id") String id){
+            @RequestParam("id") int id){
         Article article = articleService.findArticleById(id);
         try{
             article.setStatus(new Byte("1"));
             articleService.saveAndFlush(article);
-            syslogService.save(SysLogUtil.SaveSyslog("[删除友链 :]" + article.getId()));
+            syslogService.save(SysLogUtil.SaveSyslog("[删除友链 :]", article.getId() + ""));
             logger.info("[删除友链 :]" + article.getId());
         }catch (Exception e){
             logger.info(e.getMessage());
@@ -90,41 +91,49 @@ public class ArticleController {
         }
     }
 
-//    @Modifying
-//    @Transactional
-//    @RequestMapping(value = "/add",method = {RequestMethod.GET,RequestMethod.POST})
-//    public BaseResponse<Page<Article>> addFriends(
-//            @RequestParam(value = "name",required = true) String name,
-//            @RequestParam(value = "url",required = true) String url,
-//            @RequestParam(value = "typeId",required = true) int typeId
-//    ) throws IOException {
-//
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        Admin admin = objectMapper.readValue(stringRedisTemplate.opsForValue().get(BlogConst.USER_SESSION_KEY),Admin.class);
-//
-//        try{
-//            Friends friends = new Friends();
-//            friends.setAid(admin.getAid());
-//            friends.setFriendId(IdGenerate.getFriendId().intValue() - 1 + "");
-//            friends.setName(name);
-//            friends.setUrl(url);
-//            friends.setCreateTime(new Date());
-//            friends.setStatus(false);
-//            friends.setTypeId(typeId);
-//            friendsService.saveAndUpdate(friends);
-//            syslogService.save(SysLogUtil.SaveSyslog("[添加友链 :]" + friends.toString()));
-//            logger.info("[添加友链 :]" + friends.toString());
-//        }catch (Exception e){
-//            logger.info(e.getMessage());
-//        }finally {
-//            Sort sort = new Sort(Sort.Direction.DESC, "friendId");
-//            Pageable pageable = new PageRequest(1, 15, sort);
-//            return getResponse(true,"添加友链成功!",pageable);
-//        }
-//    }
+    @Modifying
+    @Transactional
+    @RequestMapping(value = "/a/article/save",method = {RequestMethod.GET,RequestMethod.POST})
+    public BaseResponse<Page<Article>> saveArticle(
+            @RequestParam(value = "title",required = true) String title,
+            @RequestParam(value = "cover",required = true) String cover,
+            @RequestParam(value = "subMessage",required = true) String subMessage,
+            @RequestParam(value = "isEncrypt",required = true) int isEncrypt,
+            @RequestParam(value = "content",required = true) String content,
+            @RequestParam(value = "htmlContent",required = true) String htmlContent,
+            @RequestParam(value = "category",required = true) int categoryId,
+            @RequestParam(value = "tags",required = true) String tags
+    ) throws IOException {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        Admin admin = objectMapper.readValue(stringRedisTemplate.opsForValue().get(BlogConst.USER_SESSION_KEY),Admin.class);
+        try{
+            Article article = new Article();
+            article.setUserId(admin.getId());
+            article.setTitle(title);
+            article.setCategoryId(categoryId);
+            article.setStatus(0);
+            article.setContent(content);
+            article.setHtmlContent(htmlContent);
+            article.setCover(cover);
+            article.setPageview(0);
+            article.setCreateTime(new Timestamp(new Date().getTime()));
+            article.setSubMessage(subMessage);
+            article.setIsEncrypt(isEncrypt);
+            Article article1 = articleService.saveAndFlush(article);
+            syslogService.save(SysLogUtil.SaveSyslog("[添加文章 :]", article1.getId() + ""));
+            logger.info("[添加文章 :]",article.getId() + "");
+        }catch (Exception e){
+            logger.info(e.getMessage());
+        }finally {
+            Sort sort = new Sort(Sort.Direction.DESC, "id");
+            Pageable pageable = new PageRequest(1, 15, sort);
+            return getResponse(true,"添加友链成功!",pageable,0);
+        }
+    }
 
 
-    private BaseResponse<Page<Article>> getResponse(boolean success,String msg,Pageable pageable,Byte status){
+    private BaseResponse<Page<Article>> getResponse(boolean success,String msg,Pageable pageable,int status){
         BaseResponse<Page<Article>> response = new BaseResponse<>();
         response.setSuccess(success);
         response.setMsg(msg);

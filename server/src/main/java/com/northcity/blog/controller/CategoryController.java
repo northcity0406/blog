@@ -7,7 +7,6 @@ import com.northcity.blog.response.BaseResponse;
 import com.northcity.blog.service.interfaceDecla.CategoryService;
 import com.northcity.blog.service.interfaceDecla.SyslogService;
 import com.northcity.blog.util.BlogConst;
-import com.northcity.blog.util.IdGenerate;
 import com.northcity.blog.util.SysLogUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,12 +18,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.*;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @RestController
-//@RequestMapping(value={"/a/category","/w/category"})
 public class CategoryController {
 	private static Logger logger = LoggerFactory.getLogger(AdminController.class);
 	@Autowired
@@ -54,19 +52,17 @@ public class CategoryController {
 			HttpSession session) throws IOException {
 
 		ObjectMapper objectMapper = new ObjectMapper();
-		Admin admin = objectMapper.readValue(stringRedisTemplate.opsForValue().get(BlogConst.USER_SESSION_KEY),Admin.class);
+		Admin admin = objectMapper.readValue(stringRedisTemplate.opsForValue().get(BlogConst.USER_SESSION_KEY), Admin.class);
 		try{
 			Category category = new Category();
-			category.setAid(admin.getAid());
-			category.setId(IdGenerate.getCategoryId().intValue() - 1 + "");
 			category.setName(name);
-			category.setCreateTime(new Date());
-			category.setStatus(true);
+			category.setCreateTime(new Timestamp(new Date().getTime()));
+			category.setStatus(0);
 			category.setArticleCount(0);
-			category.setCanDel(true);
+			category.setCanDel(0);
 			categoryService.saveAndFlush(category);
 			logger.info("[Category添加 :]" + category.toString());
-			syslogService.save(SysLogUtil.SaveSyslog("[Category添加 :]" + category.toString()));
+			syslogService.save(SysLogUtil.SaveSyslog("[Category添加 :]", category.toString()));
 			return getResponse(true,"添加成功!");
 		}catch (NullPointerException e){
 			logger.info(e.getMessage());
@@ -76,7 +72,7 @@ public class CategoryController {
 
 	@RequestMapping(value = "/a/category/modify",method = {RequestMethod.GET,RequestMethod.POST})
 	public BaseResponse<List<Category>> modifyCategory(
-			@RequestParam("categoryId") String id,
+			@RequestParam("categoryId") int id,
 			@RequestParam("categoryName") String name){
 		Category category = categoryService.findCategoryById(id);
 		if(category == null){
@@ -84,10 +80,10 @@ public class CategoryController {
 		}
 		try{
 			category.setName(name);
-			category.setUpdateTime(new Date());
+			category.setUpdateTime(new Timestamp(new Date().getTime()));
 			categoryService.saveAndFlush(category);
 			logger.info("[Category修改 :]" + category.toString());
-			syslogService.save(SysLogUtil.SaveSyslog("[Category修改 :]" + category.toString()));
+			syslogService.save(SysLogUtil.SaveSyslog("[Category修改 :]", category.toString()));
 			return getResponse(true,"修改成功!");
 		}catch (NullPointerException e){
 			logger.info(e.getMessage());
@@ -99,14 +95,12 @@ public class CategoryController {
 	@Transactional
 	@RequestMapping(value = "/a/category/delete",method = {RequestMethod.GET,RequestMethod.POST})
 	public BaseResponse<List<Category>> deleteCategory(
-			@RequestParam("categoryId") String id){
-
-		logger.info(id);
+			@RequestParam("categoryId") int id){
 		try{
 			Category category = categoryService.findCategoryById(id);
 			categoryService.deleteById(id);
 			logger.info("[Category删除 :]" + category.toString());
-			syslogService.save(SysLogUtil.SaveSyslog("[Category删除 :]" + category.toString()));
+			syslogService.save(SysLogUtil.SaveSyslog("[Category删除 :]", category.toString()));
 			return getResponse(true,"删除成功!");
 		}catch (NullPointerException e){
 			logger.info(e.getMessage());

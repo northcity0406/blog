@@ -4,7 +4,7 @@ import com.northcity.blog.entity.SysLog;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 public interface SyslogService {
-	SysLog save(SysLog sysLog);
+	void save(SysLog sysLog);
 
 	Page<SysLog> findAll(Pageable pageable);
 }

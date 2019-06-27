@@ -2,15 +2,11 @@ package com.northcity.blog.util;
 import com.northcity.blog.entity.Admin;
 import org.springframework.http.HttpHeaders;
 import org.springframework.util.DigestUtils;
-import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Date;
 
 /**
  * 公用工具类
